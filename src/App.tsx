@@ -5,10 +5,12 @@ import {
   Redirect,
   Route,
   Switch
-} from 'react-router-dom'; /* Link, Route */
+} from 'react-router-dom';
 import BoardList from './board/containers/BoardList';
 import { ConditionalRoute } from './core/ConditionalRoute';
 import StartPage from './shared/components/StartPage';
+import Signup from './auth/containers/Signup';
+import { ROUTES } from './core/Routes';
 
 class App extends React.Component<{}, { loggedIn: boolean }> {
   constructor(props: any) {
@@ -30,17 +32,23 @@ class App extends React.Component<{}, { loggedIn: boolean }> {
             // tslint:disable-next-line jsx-no-lambda
             render={() =>
               this.state.loggedIn ? (
-                <Redirect to="/board-list" />
+                <Redirect to={ROUTES.BOARDS.LIST} />
               ) : (
                 <StartPage />
               )
             }
           />
           <ConditionalRoute
-            path="/board-list"
+            path={ROUTES.AUTH.SIGN_UP}
+            component={Signup}
+            routeCondition={!this.state.loggedIn}
+            redirectTo={ROUTES.ROOT_PAGE}
+          />
+          <ConditionalRoute
+            path={ROUTES.BOARDS.LIST}
             component={BoardList}
             routeCondition={this.state.loggedIn}
-            redirectTo="/"
+            redirectTo={ROUTES.ROOT_PAGE}
           />
           <Route
             exact={true}
