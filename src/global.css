@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond&subset=cyrillic');
+
+body {
+  background-color: #fbfbfb;
+  font-family: 'EB Garamond', serif;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+p,
+span,
+div,
+a {
+  font-size: 16px;
+  line-height: 20px;
+}

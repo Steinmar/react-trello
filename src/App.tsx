@@ -15,7 +15,7 @@ class App extends React.Component<{}, { loggedIn: boolean }> {
     super(props);
 
     this.state = {
-      loggedIn: true
+      loggedIn: false
     };
   }
 
