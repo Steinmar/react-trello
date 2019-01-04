@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-redux": "^6.0.12",
     "install": "^0.12.2",
     "npm": "^6.5.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-router": "^4.3.1",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "3.1.0",
+    "redux": "^4.0.1",
     "redux-saga": "^0.16.2"
   },
   "scripts": {
@@ -18,11 +21,13 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
+    "@types/jest": "^23.3.11",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
+    "@types/react-router-dom": "^4.3.1",
     "babel-plugin-css-in-js": "^1.5.1",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.2.2"
   }
 }
