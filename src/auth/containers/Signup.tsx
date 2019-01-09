@@ -7,7 +7,7 @@ import {
   ISignupFormValue
 } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
-import { createTouchCheckingFn } from 'src/utils';
+import { createTouchCheckingFn, formIsValid } from 'src/utils';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({
@@ -25,6 +25,7 @@ class Signup extends React.Component<
     super(props);
 
     this.state = {
+      valid: false,
       value: {
         userName: '',
         email: '',
@@ -80,9 +81,7 @@ class Signup extends React.Component<
 
   private handleFormSubmit(event) {
     event.preventDefault();
-    // this.handlers.click(this.state.value);
     this.props.formSubmit(this.state.value);
-    console.log(this.state);
   }
 
   private checkAndToggleErrors(value: ISignupFormValue): ISignupFormErrors {
@@ -117,6 +116,8 @@ class Signup extends React.Component<
           userName.length > VALIDATION_CONSTANTS.NAME_LENGTH.MAX
       }
     };
+    console.log(formIsValid(errors));
+    console.log(errors);
     return errors;
   }
 }
