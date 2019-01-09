@@ -26,10 +26,10 @@ function* handleSignUpFetch(params) {
 function* watchSighUpFetchRequest() {
   while (true) {
     const { params } = yield take(
-      fromTypes.LoginStateActionTypes.FETCH_REQUEST
+      fromTypes.SignUpStateActionTypes.FETCH_REQUEST
     );
 
-    yield call(handleLoginFetch, params);
+    yield call(handleSignUpFetch, params);
   }
 }
 
@@ -56,10 +56,10 @@ function* handleLoginFetch(params) {
 function* watchLoginFetchRequest() {
   while (true) {
     const { params } = yield take(
-      fromTypes.SignUpStateActionTypes.FETCH_REQUEST
+      fromTypes.LoginStateActionTypes.FETCH_REQUEST
     );
 
-    yield call(handleSignUpFetch, params);
+    yield call(handleLoginFetch, params);
   }
 }
 

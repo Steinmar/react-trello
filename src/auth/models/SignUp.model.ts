@@ -7,7 +7,6 @@ export interface ISignupFormValue {
 
 export interface ISignupFormErrors {
   email: {
-    length: boolean;
     pattern: boolean;
   };
   password: {
@@ -31,4 +30,5 @@ export interface ISignupFormProps {
   onFormChange: (
     name: string
   ) => ((event: React.ChangeEvent<HTMLInputElement>) => void);
+  onFormSubmit: (event) => void;
 }
