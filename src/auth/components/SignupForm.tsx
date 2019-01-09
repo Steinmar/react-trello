@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { css, StyleSheet } from 'aphrodite';
+import { ISignupFormProps } from '../models';
 
 const styles = StyleSheet.create({
   formRow: {
@@ -12,26 +13,15 @@ const styles = StyleSheet.create({
   },
   fullWidth: {
     width: '100%'
+  },
+  'form-error__message': {
+    color: 'red'
   }
 });
 
-interface ISignupFormState {
-  userName: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-}
-
-class SignupForm extends React.Component<{}, ISignupFormState> {
+class SignupForm extends React.Component<ISignupFormProps, {}> {
   constructor(props: any) {
     super(props);
-
-    this.state = {
-      userName: '',
-      email: '',
-      password: '',
-      passwordConfirmation: ''
-    };
   }
 
   public render() {
@@ -44,11 +34,14 @@ class SignupForm extends React.Component<{}, ISignupFormState> {
               <input
                 type="text"
                 name="name"
-                value={this.state.userName}
-                onChange={this.handleChange('userName')}
+                value={this.props.formValue.userName}
+                onChange={this.props.onFormChange('userName')}
                 className={css(styles.fullWidth)}
               />
             </label>
+            <span className={css(styles['form-error__message'])}>
+              Name length should be from 4 to 16 symbols
+            </span>
           </div>
           <div className={css(styles.formRow)}>
             <label>
@@ -56,8 +49,8 @@ class SignupForm extends React.Component<{}, ISignupFormState> {
               <input
                 type="email"
                 name="email"
-                value={this.state.email}
-                onChange={this.handleChange('email')}
+                value={this.props.formValue.email}
+                onChange={this.props.onFormChange('email')}
                 className={css(styles.fullWidth)}
               />
             </label>
@@ -68,8 +61,8 @@ class SignupForm extends React.Component<{}, ISignupFormState> {
               <input
                 type="password"
                 name="password"
-                value={this.state.password}
-                onChange={this.handleChange('password')}
+                value={this.props.formValue.password}
+                onChange={this.props.onFormChange('password')}
                 className={css(styles.fullWidth)}
               />
             </label>
@@ -80,8 +73,8 @@ class SignupForm extends React.Component<{}, ISignupFormState> {
               <input
                 type="password"
                 name="passwordConfirmation"
-                value={this.state.passwordConfirmation}
-                onChange={this.handleChange('passwordConfirmation')}
+                value={this.props.formValue.passwordConfirmation}
+                onChange={this.props.onFormChange('passwordConfirmation')}
                 className={css(styles.fullWidth)}
               />
             </label>
@@ -92,15 +85,6 @@ class SignupForm extends React.Component<{}, ISignupFormState> {
         </form>
       </div>
     );
-  }
-
-  private handleChange(prop: any) {
-    return (event: any) => {
-      const value = event.target.value;
-      this.setState(state => {
-        return { ...state, [prop]: value };
-      });
-    };
   }
 
   private handleSubmit(event: any) {
