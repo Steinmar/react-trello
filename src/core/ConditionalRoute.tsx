@@ -1,7 +1,12 @@
 import * as H from 'history';
 import * as React from 'react';
 import { connect, MapStateToPropsParam } from 'react-redux';
-import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router';
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  RouteProps
+} from 'react-router-dom';
 
 export interface IConditionalRouteProps extends RouteProps {
   routeCondition: boolean;
@@ -10,7 +15,6 @@ export interface IConditionalRouteProps extends RouteProps {
 
 export class ConditionalRoute extends React.Component<IConditionalRouteProps> {
   public render() {
-    // Extract RouteProps without component property to rest.
     const {
       component: Component,
       routeCondition,
