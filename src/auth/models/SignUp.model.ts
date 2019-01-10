@@ -22,7 +22,6 @@ export interface ISignupFormErrors {
 export interface ISignupFormState {
   value: ISignupFormValue;
   errors: ISignupFormErrors;
-  valid: boolean;
 }
 
 export interface ISignupFormProps {

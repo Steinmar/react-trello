@@ -25,7 +25,6 @@ class Signup extends React.Component<
     super(props);
 
     this.state = {
-      valid: false,
       value: {
         userName: '',
         email: '',

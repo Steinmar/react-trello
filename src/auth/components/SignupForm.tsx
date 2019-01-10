@@ -35,7 +35,12 @@ const styles = StyleSheet.create({
     'border-bottom': '1px solid red'
   },
   submitButton: {
-    height: '20px'
+    height: '24px',
+    background: 'initial'
+  },
+  disabledSubmitButton: {
+    background: '#9e9e9e87',
+    color: '#fff'
   }
 });
 
@@ -49,9 +54,17 @@ const PASSWORD_LENGTH = {
   MAX: VALIDATION_CONSTANTS.PASSWORD_LENGTH.MAX
 };
 
-class SignupForm extends React.Component<ISignupFormProps, {}> {
+class SignupForm extends React.Component<
+  ISignupFormProps,
+  { submitButton: any }
+> {
+  private submitButton;
+
   constructor(props: any) {
     super(props);
+
+    this.submitButton = React.createRef();
+    console.log(this.submitButton);
   }
 
   public render() {
@@ -149,13 +162,17 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
           </div>
           <div className={css(styles.formSubmitRow)}>
             <input
-              className={css(styles.submitButton)}
+              className={css(
+                styles.submitButton,
+                this.submitButtonIsDisabled() && styles.disabledSubmitButton
+              )}
+              ref={this.submitButton}
               disabled={
                 formIsInvalid(this.props.formErrors) ||
-                this.formValueIsEmpty(this.props.formValue)
+                this.formValueWasNotSet(this.props.formValue)
               }
               type="submit"
-              value="SignUp"
+              value="Sign up"
             />
           </div>
         </form>
@@ -163,9 +180,17 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
     );
   }
 
-  private formValueIsEmpty(value: ISignupFormValue) {
+  private formValueWasNotSet(value: ISignupFormValue) {
     const toArray = Object.values(value);
-    return !toArray.find(el => el.length > 0);
+    return toArray.includes('');
+  }
+
+  private submitButtonIsDisabled() {
+    return (
+      this.submitButton &&
+      this.submitButton.current &&
+      this.submitButton.current.disabled
+    );
   }
 }
 
