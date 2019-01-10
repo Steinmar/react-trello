@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import ErrorMessage from './ErrorMessage';
-import { ISignupFormProps } from '../models';
+import { ISignupFormProps, ISignupFormValue } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
+import { formIsInvalid } from 'src/utils';
 
 const formWidth = '280px'; // TODO move from aphrodite and change it to nested css styles
 
@@ -149,6 +150,10 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
           <div className={css(styles.formSubmitRow)}>
             <input
               className={css(styles.submitButton)}
+              disabled={
+                formIsInvalid(this.props.formErrors) ||
+                this.formValueIsEmpty(this.props.formValue)
+              }
               type="submit"
               value="SignUp"
             />
@@ -156,6 +161,11 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
         </form>
       </div>
     );
+  }
+
+  private formValueIsEmpty(value: ISignupFormValue) {
+    const toArray = Object.values(value);
+    return !toArray.find(el => el.length > 0);
   }
 }
 
