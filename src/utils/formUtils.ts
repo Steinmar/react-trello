@@ -12,3 +12,7 @@ export function formIsValid(formErrors) {
   const errors = getPrimitivesArrayFromNestedCollection(formErrors, 'boolean');
   return !errors.includes(true);
 }
+
+export function formIsInvalid(formErrors) {
+  return !formIsValid(formErrors);
+}

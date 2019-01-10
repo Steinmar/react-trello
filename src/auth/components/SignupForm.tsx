@@ -1,23 +1,41 @@
 import * as React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import ErrorMessage from './ErrorMessage';
-import { ISignupFormProps } from '../models';
+import { ISignupFormProps, ISignupFormValue } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
+import { formIsInvalid } from 'src/utils';
+
+const formWidth = '280px'; // TODO move from aphrodite and change it to nested css styles
 
 const styles = StyleSheet.create({
   formRow: {
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    'flex-flow': 'column',
+    padding: '10px 0'
+  },
+  formSubmitRow: {
+    display: 'flex',
+    'justify-content': 'flex-end',
+    'flex-flow': 'row'
   },
   formContainer: {
-    maxWidth: '500px',
+    width: formWidth,
     display: 'flex',
     margin: 'auto'
   },
-  fullWidth: {
-    width: '100%'
+  form: {
+    width: formWidth
   },
-  'form-error__message': {
-    color: 'red'
+  input: {
+    width: '100%',
+    'box-sizing': 'border-box'
+  },
+  errorInput: {
+    'border-bottom': '1px solid red'
+  },
+  submitButton: {
+    height: '20px'
   }
 });
 
@@ -39,7 +57,7 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
   public render() {
     return (
       <div className={css(styles.formContainer)}>
-        <form onSubmit={this.props.onFormSubmit}>
+        <form className={css(styles.form)} onSubmit={this.props.onFormSubmit}>
           <div className={css(styles.formRow)}>
             <label>
               Name:
@@ -48,7 +66,10 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
                 name="name"
                 value={this.props.formValue.userName}
                 onChange={this.props.onFormChange('userName')}
-                className={css(styles.fullWidth)}
+                className={css(
+                  styles.input,
+                  this.props.formErrors.userName.length && styles.errorInput
+                )}
               />
             </label>
             <ErrorMessage
@@ -66,7 +87,10 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
                 name="email"
                 value={this.props.formValue.email}
                 onChange={this.props.onFormChange('email')}
-                className={css(styles.fullWidth)}
+                className={css(
+                  styles.input,
+                  this.props.formErrors.email.pattern && styles.errorInput
+                )}
               />
             </label>
             <ErrorMessage
@@ -82,7 +106,10 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
                 name="password"
                 value={this.props.formValue.password}
                 onChange={this.props.onFormChange('password')}
-                className={css(styles.fullWidth)}
+                className={css(
+                  styles.input,
+                  this.props.formErrors.password.length && styles.errorInput
+                )}
               />
             </label>
 
@@ -101,7 +128,12 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
                 name="passwordConfirmation"
                 value={this.props.formValue.passwordConfirmation}
                 onChange={this.props.onFormChange('passwordConfirmation')}
-                className={css(styles.fullWidth)}
+                className={css(
+                  styles.input,
+                  (this.props.formErrors.password.confirmationLength ||
+                    this.props.formErrors.password.match) &&
+                    styles.errorInput
+                )}
               />
             </label>
             <ErrorMessage
@@ -115,12 +147,25 @@ class SignupForm extends React.Component<ISignupFormProps, {}> {
               text={"Passwords didn't match!"}
             />
           </div>
-          <div className={css(styles.formRow)}>
-            <input type="submit" value="SignUp" />
+          <div className={css(styles.formSubmitRow)}>
+            <input
+              className={css(styles.submitButton)}
+              disabled={
+                formIsInvalid(this.props.formErrors) ||
+                this.formValueIsEmpty(this.props.formValue)
+              }
+              type="submit"
+              value="SignUp"
+            />
           </div>
         </form>
       </div>
     );
+  }
+
+  private formValueIsEmpty(value: ISignupFormValue) {
+    const toArray = Object.values(value);
+    return !toArray.find(el => el.length > 0);
   }
 }
 

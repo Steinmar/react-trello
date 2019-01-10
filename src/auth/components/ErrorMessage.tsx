@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 function ErrorMessage(props: ErrorMessageProps) {
   return props.condition ? (
-    <div className={css(styles['form-error__message'])}>{props.text}</div>
+    <span className={css(styles['form-error__message'])}>{props.text}</span>
   ) : null;
 }
 
