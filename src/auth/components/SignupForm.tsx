@@ -62,9 +62,6 @@ class SignupForm extends React.Component<
 
   constructor(props: any) {
     super(props);
-
-    this.submitButton = React.createRef();
-    console.log(this.submitButton);
   }
 
   public render() {
@@ -164,13 +161,11 @@ class SignupForm extends React.Component<
             <input
               className={css(
                 styles.submitButton,
-                this.submitButtonIsDisabled() && styles.disabledSubmitButton
+                this.submitButtonIsDisabled(this.props) &&
+                  styles.disabledSubmitButton
               )}
               ref={this.submitButton}
-              disabled={
-                formIsInvalid(this.props.formErrors) ||
-                this.formValueWasNotSet(this.props.formValue)
-              }
+              disabled={this.submitButtonIsDisabled(this.props)}
               type="submit"
               value="Sign up"
             />
@@ -185,11 +180,10 @@ class SignupForm extends React.Component<
     return toArray.includes('');
   }
 
-  private submitButtonIsDisabled() {
+  private submitButtonIsDisabled(props) {
     return (
-      this.submitButton &&
-      this.submitButton.current &&
-      this.submitButton.current.disabled
+      formIsInvalid(props.formErrors) ||
+      this.formValueWasNotSet(props.formValue)
     );
   }
 }
