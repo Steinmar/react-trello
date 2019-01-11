@@ -1,11 +1,11 @@
-export interface ISignupFormValue {
+export interface SignupFormValue {
   userName: string;
   email: string;
   password: string;
   passwordConfirmation: string;
 }
 
-export interface ISignupFormErrors {
+export interface SignupFormErrors {
   email: {
     pattern: boolean;
   };
@@ -19,15 +19,14 @@ export interface ISignupFormErrors {
   };
 }
 
-export interface ISignupFormState {
-  value: ISignupFormValue;
-  errors: ISignupFormErrors;
-  valid: boolean;
+export interface SignupFormState {
+  value: SignupFormValue;
+  errors: SignupFormErrors;
 }
 
-export interface ISignupFormProps {
-  formValue: ISignupFormValue;
-  formErrors: ISignupFormErrors;
+export interface SignupFormProps {
+  formValue: SignupFormValue;
+  formErrors: SignupFormErrors;
   onFormChange: (
     name: string
   ) => ((event: React.ChangeEvent<HTMLInputElement>) => void);

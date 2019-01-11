@@ -1,23 +1,33 @@
 import * as React from 'react';
 import SignupForm from '../components/SignupForm';
+import InfoMessage, {
+  InfoMessageType
+} from 'src/shared/components/InfoMessage';
 import * as types from '../store/types';
-import {
-  ISignupFormState,
-  ISignupFormErrors,
-  ISignupFormValue
-} from '../models';
+import { SignupFormState, SignupFormErrors, SignupFormValue } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
 import { createTouchCheckingFn } from 'src/utils';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import { ROUTES } from 'src/core/Routes';
 
 const mapDispatchToProps = dispatch => ({
   formSubmit: payload =>
-    dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload })
+    dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload }),
+  clearRedirectFlag: () =>
+    dispatch({ type: types.SignUpStateActionTypes.CLEAR_REDIRECT_FLAG }),
+  showLoginInfoSuccessMessage: () =>
+    dispatch({ type: types.LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE })
 });
 
 class Signup extends React.Component<
-  { formSubmit: (agruments) => any },
-  ISignupFormState
+  {
+    formSubmit: (agruments) => any;
+    clearRedirectFlag: () => any;
+    showLoginInfoSuccessMessage: () => any;
+    signUp: types.SignUpState;
+  },
+  SignupFormState
 > {
   private formControlWasTouched = createTouchCheckingFn('');
 
@@ -25,7 +35,6 @@ class Signup extends React.Component<
     super(props);
 
     this.state = {
-      valid: false,
       value: {
         userName: '',
         email: '',
@@ -52,14 +61,30 @@ class Signup extends React.Component<
   }
 
   public render() {
+    if (this.props.signUp.data.redirectToLogin) {
+      return <Redirect to={ROUTES.AUTH.LOGIN} />;
+    }
     return (
-      <SignupForm
-        formValue={this.state.value}
-        formErrors={this.state.errors}
-        onFormChange={this.handleFormChange}
-        onFormSubmit={this.handleFormSubmit}
-      />
+      <div>
+        {this.props.signUp.error && (
+          <InfoMessage
+            text={this.props.signUp.error as string}
+            type={InfoMessageType.ERROR}
+          />
+        )}
+        <SignupForm
+          formValue={this.state.value}
+          formErrors={this.state.errors}
+          onFormChange={this.handleFormChange}
+          onFormSubmit={this.handleFormSubmit}
+        />
+      </div>
     );
+  }
+
+  public componentWillUnmount() {
+    this.props.clearRedirectFlag();
+    this.props.showLoginInfoSuccessMessage();
   }
 
   private handleFormChange(prop: any) {
@@ -84,7 +109,7 @@ class Signup extends React.Component<
     this.props.formSubmit(this.mapStateToRequest(this.state.value));
   }
 
-  private checkAndToggleErrors(value: ISignupFormValue): ISignupFormErrors {
+  private checkAndToggleErrors(value: SignupFormValue): SignupFormErrors {
     const { userName, email, password, passwordConfirmation } = value;
 
     const errors = {
@@ -120,7 +145,7 @@ class Signup extends React.Component<
     return errors;
   }
 
-  private mapStateToRequest(value: ISignupFormValue) {
+  private mapStateToRequest(value: SignupFormValue) {
     const { email, password } = value;
     return {
       name: value.userName,
