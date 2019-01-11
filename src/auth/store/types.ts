@@ -11,7 +11,8 @@ export interface Login {
 export const enum SignUpStateActionTypes {
   FETCH_REQUEST = '@@signup/FETCH_REQUEST',
   FETCH_SUCCESS = '@@signup/FETCH_SUCCESS',
-  FETCH_ERROR = '@@signup/FETCH_ERROR'
+  FETCH_ERROR = '@@signup/FETCH_ERROR',
+  RESET = '@@signup/RESET'
 }
 
 export const enum LoginStateActionTypes {

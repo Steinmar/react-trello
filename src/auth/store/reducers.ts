@@ -43,6 +43,16 @@ const SignUpReducer: Reducer<SignUpState> = (
     case SignUpStateActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
+    case SignUpStateActionTypes.RESET: {
+      return {
+        loading: false,
+        data: {
+          email: '',
+          name: ''
+        },
+        error: null
+      };
+    }
     default: {
       return state;
     }

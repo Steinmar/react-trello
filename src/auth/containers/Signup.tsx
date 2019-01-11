@@ -8,14 +8,21 @@ import { SignupFormState, SignupFormErrors, SignupFormValue } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
 import { createTouchCheckingFn } from 'src/utils';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import { ROUTES } from 'src/core/Routes';
 
 const mapDispatchToProps = dispatch => ({
   formSubmit: payload =>
-    dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload })
+    dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload }),
+  resetData: () => dispatch({ type: types.SignUpStateActionTypes.RESET })
 });
 
 class Signup extends React.Component<
-  { formSubmit: (agruments) => any; signUp: types.SignUpState },
+  {
+    formSubmit: (agruments) => any;
+    resetData: () => any;
+    signUp: types.SignUpState;
+  },
   SignupFormState
 > {
   private formControlWasTouched = createTouchCheckingFn('');
@@ -50,6 +57,9 @@ class Signup extends React.Component<
   }
 
   public render() {
+    if (this.props.signUp.data.email) {
+      return <Redirect to={ROUTES.AUTH.LOGIN} />;
+    }
     return (
       <div>
         {this.props.signUp.error && (
@@ -66,6 +76,12 @@ class Signup extends React.Component<
         />
       </div>
     );
+  }
+
+  public componentWillUnmount() {
+    // did this to add ability return to sugn up page
+    // after redirection to login page
+    this.props.resetData();
   }
 
   private handleFormChange(prop: any) {
