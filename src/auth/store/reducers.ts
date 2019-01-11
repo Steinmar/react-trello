@@ -1,5 +1,10 @@
 import { Reducer } from 'redux';
-import { SignUpState, SignUpStateActionTypes, LoginState } from './types';
+import {
+  SignUpState,
+  SignUpStateActionTypes,
+  LoginState,
+  LoginStateActionTypes
+} from './types';
 
 const signUpInitialState: SignUpState = {
   data: {
@@ -49,10 +54,10 @@ const loginReducer: Reducer<LoginState> = (
   action
 ) => {
   switch (action.type) {
-    case SignUpStateActionTypes.FETCH_REQUEST: {
+    case LoginStateActionTypes.FETCH_REQUEST: {
       return { ...state, loading: true, error: null };
     }
-    case SignUpStateActionTypes.FETCH_SUCCESS: {
+    case LoginStateActionTypes.FETCH_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -60,7 +65,7 @@ const loginReducer: Reducer<LoginState> = (
         error: null
       };
     }
-    case SignUpStateActionTypes.FETCH_ERROR: {
+    case LoginStateActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
     default: {

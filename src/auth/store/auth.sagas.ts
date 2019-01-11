@@ -35,7 +35,7 @@ function* watchSighUpFetchRequest() {
 
 function* handleLoginFetch(params) {
   try {
-    const res = yield call(api, 'post', '/login', params);
+    const res = yield call(api, 'post', 'login', params);
 
     if (res.error) {
       yield put(fromActions.loginFetchRequestError(res.error));
@@ -64,7 +64,7 @@ function* watchLoginFetchRequest() {
 }
 
 function* authSaga() {
-  yield all([fork(watchSighUpFetchRequest, watchLoginFetchRequest)]);
+  yield all([fork(watchSighUpFetchRequest), fork(watchLoginFetchRequest)]);
 }
 
 export default authSaga;

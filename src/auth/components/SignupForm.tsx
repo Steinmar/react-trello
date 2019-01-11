@@ -1,48 +1,12 @@
 import * as React from 'react';
-import { css, StyleSheet } from 'aphrodite';
+import { css } from 'aphrodite';
 import ErrorMessage from './ErrorMessage';
-import { ISignupFormProps, ISignupFormValue } from '../models';
+import { SignupFormProps } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
-import { formIsInvalid } from 'src/utils';
+import { submitButtonIsDisabled } from 'src/utils';
+import formStyles from 'src/styles/forms';
 
-const formWidth = '280px'; // TODO move from aphrodite and change it to nested css styles
-
-const styles = StyleSheet.create({
-  formRow: {
-    width: '100%',
-    display: 'flex',
-    'flex-flow': 'column',
-    padding: '10px 0'
-  },
-  formSubmitRow: {
-    display: 'flex',
-    'justify-content': 'flex-end',
-    'flex-flow': 'row'
-  },
-  formContainer: {
-    width: formWidth,
-    display: 'flex',
-    margin: 'auto'
-  },
-  form: {
-    width: formWidth
-  },
-  input: {
-    width: '100%',
-    'box-sizing': 'border-box'
-  },
-  errorInput: {
-    'border-bottom': '1px solid red'
-  },
-  submitButton: {
-    height: '24px',
-    background: 'initial'
-  },
-  disabledSubmitButton: {
-    background: '#9e9e9e87',
-    color: '#fff'
-  }
-});
+const styles = formStyles;
 
 const USER_NAME_LENGTH = {
   MIN: VALIDATION_CONSTANTS.NAME_LENGTH.MIN,
@@ -54,12 +18,7 @@ const PASSWORD_LENGTH = {
   MAX: VALIDATION_CONSTANTS.PASSWORD_LENGTH.MAX
 };
 
-class SignupForm extends React.Component<
-  ISignupFormProps,
-  { submitButton: any }
-> {
-  private submitButton;
-
+class SignupForm extends React.Component<SignupFormProps> {
   constructor(props: any) {
     super(props);
   }
@@ -161,29 +120,16 @@ class SignupForm extends React.Component<
             <input
               className={css(
                 styles.submitButton,
-                this.submitButtonIsDisabled(this.props) &&
+                submitButtonIsDisabled(this.props) &&
                   styles.disabledSubmitButton
               )}
-              ref={this.submitButton}
-              disabled={this.submitButtonIsDisabled(this.props)}
+              disabled={submitButtonIsDisabled(this.props)}
               type="submit"
               value="Sign up"
             />
           </div>
         </form>
       </div>
-    );
-  }
-
-  private formValueWasNotSet(value: ISignupFormValue) {
-    const toArray = Object.values(value);
-    return toArray.includes('');
-  }
-
-  private submitButtonIsDisabled(props) {
-    return (
-      formIsInvalid(props.formErrors) ||
-      this.formValueWasNotSet(props.formValue)
     );
   }
 }

@@ -17,6 +17,7 @@ export interface ApplicationState {
   router: Reducer<Reducer<RouterState, LocationChangeAction>, AnyAction>;
   login: LoginState;
   signUp: SignUpState;
+  userState: any;
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
