@@ -9,7 +9,8 @@ import {
 const signUpInitialState: SignUpState = {
   data: {
     email: '',
-    name: ''
+    name: '',
+    redirectToLogin: false
   },
   error: null,
   loading: false
@@ -18,7 +19,8 @@ const signUpInitialState: SignUpState = {
 const loginInitialState: LoginState = {
   data: {
     email: '',
-    name: ''
+    name: '',
+    showSuccessMessage: false
   },
   error: null,
   loading: false
@@ -36,19 +38,22 @@ const SignUpReducer: Reducer<SignUpState> = (
       return {
         ...state,
         loading: false,
-        data: action.payload,
+        data: {
+          ...action.payload,
+          redirectToLogin: true
+        },
         error: null
       };
     }
     case SignUpStateActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
-    case SignUpStateActionTypes.RESET: {
+    case SignUpStateActionTypes.CLEAR_REDIRECT_FLAG: {
       return {
         loading: false,
         data: {
-          email: '',
-          name: ''
+          ...state.data,
+          redirectToLogin: false
         },
         error: null
       };
@@ -77,6 +82,20 @@ const loginReducer: Reducer<LoginState> = (
     }
     case LoginStateActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, error: action.payload };
+    }
+    case LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE: {
+      return {
+        ...state,
+        loading: false,
+        data: { ...state.data, showSuccessMessage: true }
+      };
+    }
+    case LoginStateActionTypes.HIDE_INFO_SUCCESS_MESSAGE: {
+      return {
+        ...state,
+        loading: false,
+        data: { ...state.data, showSuccessMessage: false }
+      };
     }
     default: {
       return state;

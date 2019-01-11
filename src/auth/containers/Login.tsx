@@ -4,18 +4,24 @@ import InfoMessage, {
 } from 'src/shared/components/InfoMessage';
 import * as types from '../store/types';
 import { LoginFormState, LoginFormValue, LoginFormErrors } from '../models';
-import { VALIDATION_CONSTANTS } from '../CONSTANTS';
+import { VALIDATION_CONSTANTS, UI_CONSTANTS } from '../CONSTANTS';
 import { createTouchCheckingFn } from 'src/utils';
 import { connect } from 'react-redux';
 import LoginForm from '../components/LoginForm';
 
 const mapDispatchToProps = dispatch => ({
   formSubmit: payload =>
-    dispatch({ type: types.LoginStateActionTypes.FETCH_REQUEST, payload })
+    dispatch({ type: types.LoginStateActionTypes.FETCH_REQUEST, payload }),
+  hideLoginInfoSuccessMessage: () =>
+    dispatch({ type: types.LoginStateActionTypes.HIDE_INFO_SUCCESS_MESSAGE })
 });
 
 class Login extends React.Component<
-  { formSubmit: (agruments) => any; login: types.LoginState },
+  {
+    formSubmit: (agruments) => any;
+    hideLoginInfoSuccessMessage: () => any;
+    login: types.LoginState;
+  },
   LoginFormState
 > {
   private formControlWasTouched = createTouchCheckingFn('');
@@ -45,6 +51,14 @@ class Login extends React.Component<
   public render() {
     return (
       <div>
+        {this.props.login.data.showSuccessMessage && (
+          <InfoMessage
+            text={
+              'You was successfully signed up. Please use your credentials to login'
+            }
+            type={InfoMessageType.SUCCESS}
+          />
+        )}
         {this.props.login.error && (
           <InfoMessage
             text={this.props.login.error as string}
@@ -59,6 +73,12 @@ class Login extends React.Component<
         />
       </div>
     );
+  }
+
+  public componentDidMount() {
+    setTimeout(_ => {
+      this.props.hideLoginInfoSuccessMessage();
+    }, UI_CONSTANTS.SHOW_SUCCESS_MESSAGE_TIME);
   }
 
   private handleFormChange(prop: any) {

@@ -14,13 +14,17 @@ import { ROUTES } from 'src/core/Routes';
 const mapDispatchToProps = dispatch => ({
   formSubmit: payload =>
     dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload }),
-  resetData: () => dispatch({ type: types.SignUpStateActionTypes.RESET })
+  clearRedirectFlag: () =>
+    dispatch({ type: types.SignUpStateActionTypes.CLEAR_REDIRECT_FLAG }),
+  showLoginInfoSuccessMessage: () =>
+    dispatch({ type: types.LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE })
 });
 
 class Signup extends React.Component<
   {
     formSubmit: (agruments) => any;
-    resetData: () => any;
+    clearRedirectFlag: () => any;
+    showLoginInfoSuccessMessage: () => any;
     signUp: types.SignUpState;
   },
   SignupFormState
@@ -57,7 +61,7 @@ class Signup extends React.Component<
   }
 
   public render() {
-    if (this.props.signUp.data.email) {
+    if (this.props.signUp.data.redirectToLogin) {
       return <Redirect to={ROUTES.AUTH.LOGIN} />;
     }
     return (
@@ -79,9 +83,8 @@ class Signup extends React.Component<
   }
 
   public componentWillUnmount() {
-    // did this to add ability return to sugn up page
-    // after redirection to login page
-    this.props.resetData();
+    this.props.clearRedirectFlag();
+    this.props.showLoginInfoSuccessMessage();
   }
 
   private handleFormChange(prop: any) {
