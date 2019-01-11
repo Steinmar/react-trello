@@ -6,7 +6,7 @@ const signUpInitialState: SignUpState = {
     email: '',
     name: ''
   },
-  error: undefined,
+  error: null,
   loading: false
 };
 
@@ -15,7 +15,7 @@ const loginInitialState: LoginState = {
     email: '',
     name: ''
   },
-  error: undefined,
+  error: null,
   loading: false
 };
 
@@ -25,13 +25,18 @@ const SignUpReducer: Reducer<SignUpState> = (
 ) => {
   switch (action.type) {
     case SignUpStateActionTypes.FETCH_REQUEST: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     }
     case SignUpStateActionTypes.FETCH_SUCCESS: {
-      return { ...state, loading: false, data: action.payload };
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+        error: null
+      };
     }
     case SignUpStateActionTypes.FETCH_ERROR: {
-      return { ...state, loading: false, errors: action.payload };
+      return { ...state, loading: false, error: action.payload };
     }
     default: {
       return state;
@@ -45,13 +50,18 @@ const loginReducer: Reducer<LoginState> = (
 ) => {
   switch (action.type) {
     case SignUpStateActionTypes.FETCH_REQUEST: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     }
     case SignUpStateActionTypes.FETCH_SUCCESS: {
-      return { ...state, loading: false, data: action.payload };
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+        error: null
+      };
     }
     case SignUpStateActionTypes.FETCH_ERROR: {
-      return { ...state, loading: false, errors: action.payload };
+      return { ...state, loading: false, error: action.payload };
     }
     default: {
       return state;

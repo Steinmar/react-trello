@@ -1,5 +1,8 @@
 import * as React from 'react';
 import SignupForm from '../components/SignupForm';
+import InfoMessage, {
+  InfoMessageType
+} from 'src/shared/components/InfoMessage';
 import * as types from '../store/types';
 import {
   ISignupFormState,
@@ -16,7 +19,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Signup extends React.Component<
-  { formSubmit: (agruments) => any },
+  { formSubmit: (agruments) => any; signUp: types.SignUpState },
   ISignupFormState
 > {
   private formControlWasTouched = createTouchCheckingFn('');
@@ -52,12 +55,20 @@ class Signup extends React.Component<
 
   public render() {
     return (
-      <SignupForm
-        formValue={this.state.value}
-        formErrors={this.state.errors}
-        onFormChange={this.handleFormChange}
-        onFormSubmit={this.handleFormSubmit}
-      />
+      <div>
+        {this.props.signUp.error && (
+          <InfoMessage
+            text={this.props.signUp.error as string}
+            type={InfoMessageType.ERROR}
+          />
+        )}
+        <SignupForm
+          formValue={this.state.value}
+          formErrors={this.state.errors}
+          onFormChange={this.handleFormChange}
+          onFormSubmit={this.handleFormSubmit}
+        />
+      </div>
     );
   }
 

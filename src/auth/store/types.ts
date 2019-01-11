@@ -23,11 +23,11 @@ export const enum LoginStateActionTypes {
 export interface SignUpState {
   readonly loading: boolean;
   readonly data: SignUp;
-  readonly error?: string;
+  readonly error: string | null;
 }
 
 export interface LoginState {
   readonly loading: boolean;
   readonly data: Login;
-  readonly error?: string;
+  readonly error: string | null;
 }
