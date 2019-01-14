@@ -45,7 +45,7 @@ const BoardListReducer: Reducer<BoardListState> = (
         ...state,
         loading: false,
         error: null,
-        data: state.data.filter(element => element.id !== action.payload)
+        data: state.data.filter(element => element.id !== action.payload.id)
       };
     }
     case BoardListStateActionTypes.UPDATE_ITEM_SUCCESS: {

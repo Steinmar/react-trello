@@ -67,6 +67,28 @@ function* handleBoardListUpdateItemFetch(payload) {
   }
 }
 
+function* handleBoardListDeleteItemFetch(id) {
+  try {
+    const res = yield call(api, 'delete', `board/${id}`);
+
+    if (res.error) {
+      yield put(fromActions.boardListDeleteItemRequestError(res.error));
+    } else {
+      yield put(fromActions.boardListDeleteItemRequestSuccess(res));
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(fromActions.boardListDeleteItemRequestError(err.stack!));
+    } else {
+      yield put(
+        fromActions.boardListDeleteItemRequestError({
+          message: 'An unknown error occured.'
+        })
+      );
+    }
+  }
+}
+
 function* watchBoardFetchRequest() {
   while (true) {
     yield take(fromTypes.BoardListStateActionTypes.FETCH_REQUEST);
@@ -83,6 +105,15 @@ function* watchBoardListCreateItemRequest() {
   }
 }
 
+function* watchBoardListDeleteItemRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.BoardListStateActionTypes.DELETE_ITEM_REQUEST
+    );
+    yield call(handleBoardListDeleteItemFetch, payload);
+  }
+}
+
 function* watchBoardListUpdateItemRequest() {
   while (true) {
     const { payload } = yield take(
@@ -96,7 +127,8 @@ function* boardsSaga() {
   yield all([
     fork(watchBoardFetchRequest),
     fork(watchBoardListCreateItemRequest),
-    fork(watchBoardListUpdateItemRequest)
+    fork(watchBoardListUpdateItemRequest),
+    fork(watchBoardListDeleteItemRequest)
   ]);
 }
 

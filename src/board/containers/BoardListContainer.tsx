@@ -57,7 +57,6 @@ class BoardListContainer extends React.Component<
 
   public componentWillMount() {
     this.props.getBoardList();
-    console.log('get board list');
   }
 
   public addBoardHandler() {
@@ -68,8 +67,8 @@ class BoardListContainer extends React.Component<
     this.props.updateBoard(item);
   }
 
-  public deleteBoardHandler(event) {
-    console.log(event);
+  public deleteBoardHandler(id: string) {
+    this.props.deleteBoard(id);
   }
 }
 

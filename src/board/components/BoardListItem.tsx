@@ -16,6 +16,7 @@ class BoardListItem extends React.Component<
     };
 
     this.renameBoard = this.renameBoard.bind(this);
+    this.deleteBoard = this.deleteBoard.bind(this);
     this.newNameChange = this.newNameChange.bind(this);
   }
 
@@ -37,7 +38,7 @@ class BoardListItem extends React.Component<
             <button onClick={this.renameBoard}>rename</button>
           </div>
         )}
-        <button onClick={this.props.deleteBoard}>delete</button>
+        <button onClick={this.deleteBoard}>delete</button>
       </div>
     );
   }
@@ -47,6 +48,10 @@ class BoardListItem extends React.Component<
     this.setState(_ => ({
       newName
     }));
+  }
+
+  private deleteBoard() {
+    this.props.deleteBoard(this.props.id);
   }
 
   private renameBoard() {
