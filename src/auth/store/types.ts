@@ -8,6 +8,7 @@ export interface Login {
   name: string;
   email: string;
   showSuccessMessage: boolean;
+  token?: string;
 }
 
 export const enum SignUpStateActionTypes {

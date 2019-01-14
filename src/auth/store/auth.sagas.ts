@@ -1,11 +1,11 @@
 import { all, call, fork, put, take } from 'redux-saga/effects';
 import * as fromActions from './actions';
 import * as fromTypes from './types';
-import api from 'src/core/api';
+import authApi from '../auth.api';
 
 function* handleSignUpFetch(params) {
   try {
-    const res = yield call(api, 'post', 'sign-up', params);
+    const res = yield call(authApi, 'post', 'sign-up', params);
 
     if (res.error) {
       yield put(fromActions.signInFetchRequestError(res.error));
@@ -35,7 +35,7 @@ function* watchSighUpFetchRequest() {
 
 function* handleLoginFetch(params) {
   try {
-    const res = yield call(api, 'post', 'login', params);
+    const res = yield call(authApi, 'post', 'login', params);
 
     if (res.error) {
       yield put(fromActions.loginFetchRequestError(res.error));
