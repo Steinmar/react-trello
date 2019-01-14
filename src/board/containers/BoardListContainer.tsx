@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as types from '../store/types';
 import BoardList from '../components/BoardList';
 import { BoardListModel } from '../models/BoardList.model';
+import { BoardListItem } from '../models/BoardList.model';
 
 const mapDispatchToProps = dispatch => ({
   getBoardList: () =>
@@ -56,14 +57,15 @@ class BoardListContainer extends React.Component<
 
   public componentWillMount() {
     this.props.getBoardList();
+    console.log('get board list');
   }
 
-  public addBoardHandler(event) {
-    console.log(event);
+  public addBoardHandler() {
+    this.props.addBoard(`Board ${this.props.boards.data.length + 1}`);
   }
 
-  public updateBoardHandler(event) {
-    console.log(event);
+  public updateBoardHandler(item: BoardListItem) {
+    this.props.updateBoard(item);
   }
 
   public deleteBoardHandler(event) {

@@ -62,7 +62,7 @@ const BoardListReducer: Reducer<BoardListState> = (
         ...state,
         loading: false,
         error: null,
-        data: [...beforeItemArr, updatedItem, afterItemArr]
+        data: [...beforeItemArr, updatedItem, ...afterItemArr]
       };
     }
     default: {

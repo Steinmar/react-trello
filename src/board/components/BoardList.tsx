@@ -1,19 +1,35 @@
 import * as React from 'react';
+import BoardListItem from './BoardListItem';
 import { BoardListProps } from '../models/BoardList.model';
 
 class BoardList extends React.Component<BoardListProps> {
   constructor(props: any) {
     super(props);
-
-    console.log(this.props.addBoard);
-    console.log(this.props.deleteBoard);
-    console.log(this.props.updateBoard);
-    console.log(this.props.error);
-    console.log(this.props.list);
   }
 
   public render() {
-    return <div>Page with board list</div>;
+    const boardList = this.props.list
+      ? this.props.list.map((item, index) => (
+          <BoardListItem
+            name={item.name}
+            id={item.id}
+            key={index}
+            deleteBoard={this.props.deleteBoard}
+            renameBoard={this.props.updateBoard}
+          />
+        ))
+      : [];
+    return (
+      <div>
+        {boardList.length === 0 ? (
+          <span>There is no boards. Please create board to start work</span>
+        ) : (
+          boardList
+        )}
+        <br />
+        <button onClick={this.props.addBoard}>Create new</button>
+      </div>
+    );
   }
 }
 
