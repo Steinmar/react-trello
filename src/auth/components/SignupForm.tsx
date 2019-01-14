@@ -19,7 +19,7 @@ const PASSWORD_LENGTH = {
 };
 
 class SignupForm extends React.Component<SignupFormProps> {
-  constructor(props: any) {
+  constructor(props: SignupFormProps) {
     super(props);
   }
 

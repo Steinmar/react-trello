@@ -5,18 +5,20 @@ import {
   LocationChangeAction
 } from 'connected-react-router';
 import { all, fork } from 'redux-saga/effects';
-import authSaga from 'src/auth/store/auth.sagas';
 import {
   LoginState,
   SignUpState,
   loginReducer,
-  SignUpReducer
+  SignUpReducer,
+  authSaga
 } from 'src/auth/store';
+import { BoardListState, BoardListReducer, boardsSaga } from 'src/board/store';
 
 export interface ApplicationState {
   router: Reducer<Reducer<RouterState, LocationChangeAction>, AnyAction>;
   login: LoginState;
   signUp: SignUpState;
+  boards: BoardListState;
   userState: any;
 }
 
@@ -28,10 +30,11 @@ export function createRootReducer(history) {
   return combineReducers<ApplicationState>({
     router: connectRouter(history),
     login: loginReducer,
-    signUp: SignUpReducer
+    signUp: SignUpReducer,
+    boards: BoardListReducer
   } as any);
 }
 
 export function* rootSaga() {
-  yield all([fork(authSaga)]);
+  yield all([fork(authSaga), fork(boardsSaga)]);
 }

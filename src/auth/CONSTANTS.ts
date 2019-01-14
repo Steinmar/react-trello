@@ -17,5 +17,6 @@ export const UI_CONSTANTS = {
 };
 
 export const AUTH_NAMES = {
-  TOKEN_HEADER_NAME: 'authToken'
+  TOKEN_HEADER_NAME: 'authToken',
+  TOKEN_LOCAL_NAME: 'token'
 };

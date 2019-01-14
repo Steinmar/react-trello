@@ -69,10 +69,10 @@ const loginReducer: Reducer<LoginState> = (
   action
 ) => {
   switch (action.type) {
-    case LoginStateActionTypes.FETCH_REQUEST: {
+    case LoginStateActionTypes.FETCH_LOGIN_REQUEST: {
       return { ...state, loading: true, error: null };
     }
-    case LoginStateActionTypes.FETCH_SUCCESS: {
+    case LoginStateActionTypes.FETCH_LOGIN_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -80,7 +80,7 @@ const loginReducer: Reducer<LoginState> = (
         error: null
       };
     }
-    case LoginStateActionTypes.FETCH_ERROR: {
+    case LoginStateActionTypes.FETCH_LOGIN_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
     case LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE: {
