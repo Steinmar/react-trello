@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+// import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
 
@@ -7,15 +7,17 @@ import { Provider } from 'react-redux';
 
 import { Store } from 'redux';
 
-import { ConditionalRoute } from './core/ConditionalRoute';
-import { ROUTES } from './core/Routes';
+// import { ConditionalRoute } from './core/ConditionalRoute';
+// import { ROUTES } from './core/Routes';
 
 import { ApplicationState } from './store';
 
-import Login from './auth/containers/Login';
-import Signup from './auth/containers/Signup';
-import StartPage from './shared/components/StartPage';
-import BoardList from './board/containers/BoardList';
+// import Login from './auth/containers/Login';
+// import Signup from './auth/containers/Signup';
+// import StartPage from './shared/components/StartPage';
+// import BoardList from './board/containers/BoardList';
+
+import Routes from './Routes';
 
 interface PropsFromDispatch {
   [key: string]: any;
@@ -28,7 +30,7 @@ interface OwnProps {
 
 type AllProps = PropsFromDispatch & OwnProps;
 
-const loggedIn = false; // temp
+// const loggedIn = false; // temp
 
 class App extends React.Component<AllProps> {
   constructor(props: any) {
@@ -43,7 +45,8 @@ class App extends React.Component<AllProps> {
     return (
       <Provider store={this.props.store}>
         <ConnectedRouter history={this.props.history}>
-          <Switch>
+          <Routes />
+          {/* <Switch>
             <Route
               exact={true}
               path="/"
@@ -76,7 +79,7 @@ class App extends React.Component<AllProps> {
               // tslint:disable-next-line jsx-no-lambda
               render={() => <Redirect to="/" />}
             />
-          </Switch>
+          </Switch> */}
         </ConnectedRouter>
       </Provider>
     );
