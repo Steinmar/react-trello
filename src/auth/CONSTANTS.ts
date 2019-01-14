@@ -15,3 +15,7 @@ export const VALIDATION_CONSTANTS = {
 export const UI_CONSTANTS = {
   SHOW_SUCCESS_MESSAGE_TIME: 3000
 };
+
+export const AUTH_NAMES = {
+  TOKEN_HEADER_NAME: 'authToken'
+};
