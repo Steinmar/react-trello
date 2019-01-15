@@ -1,49 +1,35 @@
 import * as React from 'react';
-import { css, StyleSheet } from 'aphrodite';
+import { css } from 'aphrodite';
 import { ROUTES } from 'src/core/Routes';
+import { Paper, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import pageStyles from 'src/styles/page';
 
-const TEXT_INDENT = '10px';
+const styles = pageStyles;
 
-const styles = StyleSheet.create({
-  containerWrapper: {
-    width: '100%',
-    height: '100%',
-    margin: '10px 0'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    maxWidth: '800px',
-    margin: 'auto'
-  },
-  paragraph: {
-    padding: TEXT_INDENT
-  },
-  header: {
-    padding: TEXT_INDENT
-  }
-});
-
-function StartPage(props: any) {
+function StartPage() {
   return (
     <div className={css(styles.containerWrapper)}>
       <div className={css(styles.container)}>
-        <section>
-          <h1 className={css(styles.header)}>About project</h1>
-          <h2 className={css(styles.header)}>What is this</h2>
-          <p className={css(styles.paragraph)}>
-            This is web-based project management application{' '}
-          </p>
-          <h2 className={css(styles.header)}>How can I use this app</h2>
-          <p className={css(styles.paragraph)}>
-            You can <a href={ROUTES.AUTH.SIGN_UP}>Sing up</a> <br />
-            Or <a href={ROUTES.AUTH.LOGIN}>login</a> if you already have an
+        <Paper className={css(styles.paper)}>
+          <Typography variant="h4" component="h1">
+            About project
+          </Typography>
+          <Typography variant="h5" component="h2">
+            What is this
+          </Typography>
+          <Typography component="p">
+            This is web-based project management application
+          </Typography>
+          <Typography variant="h5" component="h2">
+            How can I use this app
+          </Typography>
+          <Typography component="p">
+            You can <Link to={ROUTES.AUTH.SIGN_UP}>Sing up</Link>!<br />
+            Or <Link to={ROUTES.AUTH.LOGIN}>login</Link> if you already have an
             account
-          </p>
-        </section>
-        <section>
-          <p className={css(styles.paragraph)}>
+          </Typography>
+          <Typography component="p">
             <dt>Project management</dt> is the practice of initiating, planning,
             executing, controlling, and closing the work of a team to achieve
             specific goals and meet specific success criteria at the specified
@@ -75,10 +61,15 @@ function StartPage(props: any) {
             management objectives are detrimental to decision making.
             <br />
             <br />
-            Source:{' '}
-            <a href="https://en.wikipedia.org/wiki/Project_management">Wiki</a>
-          </p>
-        </section>
+            Source:
+            <a
+              href="https://en.wikipedia.org/wiki/Project_management"
+              target="_blank"
+            >
+              Wiki
+            </a>
+          </Typography>
+        </Paper>
       </div>
     </div>
   );

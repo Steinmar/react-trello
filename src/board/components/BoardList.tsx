@@ -1,6 +1,7 @@
 import * as React from 'react';
 import BoardListItem from './BoardListItem';
 import { BoardListProps } from '../models/BoardList.model';
+import { Typography, Button, List, Grid } from '@material-ui/core';
 
 class BoardList extends React.Component<BoardListProps> {
   constructor(props: any) {
@@ -22,12 +23,24 @@ class BoardList extends React.Component<BoardListProps> {
     return (
       <div>
         {boardList.length === 0 ? (
-          <span>There is no boards. Please create board to start work</span>
+          <Typography component="span">
+            There is no boards. Please create board to start work
+          </Typography>
         ) : (
-          boardList
+          <List>{boardList}</List>
         )}
         <br />
-        <button onClick={this.props.addBoard}>Create new</button>
+        <Grid container={true} justify="flex-end">
+          {/* <Grid item={true}> */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.props.addBoard}
+          >
+            Create new
+          </Button>
+        </Grid>
+        {/* </Grid> */}
       </div>
     );
   }

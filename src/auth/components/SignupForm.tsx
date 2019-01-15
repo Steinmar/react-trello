@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { css } from 'aphrodite';
-import ErrorMessage from './ErrorMessage';
 import { SignupFormProps } from '../models';
 import { VALIDATION_CONSTANTS } from '../CONSTANTS';
 import { submitButtonIsDisabled } from 'src/utils';
 import formStyles from 'src/styles/forms';
+import { TextField, Button, CardHeader, Typography } from '@material-ui/core';
+import { ROUTES } from 'src/core/Routes';
+import { Link } from 'react-router-dom';
 
 const styles = formStyles;
 
@@ -18,6 +20,8 @@ const PASSWORD_LENGTH = {
   MAX: VALIDATION_CONSTANTS.PASSWORD_LENGTH.MAX
 };
 
+const INPUT_MARGIN = 'none';
+
 class SignupForm extends React.Component<SignupFormProps> {
   constructor(props: SignupFormProps) {
     super(props);
@@ -27,106 +31,93 @@ class SignupForm extends React.Component<SignupFormProps> {
     return (
       <div className={css(styles.formContainer)}>
         <form className={css(styles.form)} onSubmit={this.props.onFormSubmit}>
+          <CardHeader className={css(styles.header)} title="Sign up" />
           <div className={css(styles.formRow)}>
-            <label>
-              Name:
-              <input
-                type="text"
-                name="name"
-                value={this.props.formValue.userName}
-                onChange={this.props.onFormChange('userName')}
-                className={css(
-                  styles.input,
-                  this.props.formErrors.userName.length && styles.errorInput
-                )}
-              />
-            </label>
-            <ErrorMessage
-              condition={this.props.formErrors.userName.length}
-              text={`Name length should be from ${USER_NAME_LENGTH.MIN} to ${
-                USER_NAME_LENGTH.MAX
-              } symbols`}
+            <TextField
+              name="name"
+              label={
+                this.props.formErrors.userName.length
+                  ? `Name length should be from ${USER_NAME_LENGTH.MIN} to ${
+                      USER_NAME_LENGTH.MAX
+                    } symbols`
+                  : 'Name'
+              }
+              error={this.props.formErrors.userName.length}
+              value={this.props.formValue.userName}
+              onChange={this.props.onFormChange('userName')}
+              margin={INPUT_MARGIN}
             />
           </div>
           <div className={css(styles.formRow)}>
-            <label>
-              Email:
-              <input
-                type="email"
-                name="email"
-                value={this.props.formValue.email}
-                onChange={this.props.onFormChange('email')}
-                className={css(
-                  styles.input,
-                  this.props.formErrors.email.pattern && styles.errorInput
-                )}
-              />
-            </label>
-            <ErrorMessage
-              condition={this.props.formErrors.email.pattern}
-              text={'Email should be valid'}
+            <TextField
+              type="email"
+              name="email"
+              value={this.props.formValue.email}
+              onChange={this.props.onFormChange('email')}
+              label={
+                this.props.formErrors.email.pattern
+                  ? 'Email should be valid'
+                  : 'Email'
+              }
+              error={this.props.formErrors.email.pattern}
+              margin={INPUT_MARGIN}
             />
           </div>
           <div className={css(styles.formRow)}>
-            <label>
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.props.formValue.password}
-                onChange={this.props.onFormChange('password')}
-                className={css(
-                  styles.input,
-                  this.props.formErrors.password.length && styles.errorInput
-                )}
-              />
-            </label>
-
-            <ErrorMessage
-              condition={this.props.formErrors.password.length}
-              text={`Password length should be from ${PASSWORD_LENGTH.MIN} to ${
-                PASSWORD_LENGTH.MAX
-              } symbols`}
+            <TextField
+              type="password"
+              name="password"
+              value={this.props.formValue.password}
+              onChange={this.props.onFormChange('password')}
+              label={
+                this.props.formErrors.password.length
+                  ? `Password length should be from ${PASSWORD_LENGTH.MIN} to ${
+                      PASSWORD_LENGTH.MAX
+                    } symbols`
+                  : 'Password'
+              }
+              error={this.props.formErrors.password.length}
+              margin={INPUT_MARGIN}
             />
           </div>
           <div className={css(styles.formRow)}>
-            <label>
-              Confirm password:
-              <input
-                type="password"
-                name="passwordConfirmation"
-                value={this.props.formValue.passwordConfirmation}
-                onChange={this.props.onFormChange('passwordConfirmation')}
-                className={css(
-                  styles.input,
-                  (this.props.formErrors.password.confirmationLength ||
-                    this.props.formErrors.password.match) &&
-                    styles.errorInput
-                )}
-              />
-            </label>
-            <ErrorMessage
-              condition={this.props.formErrors.password.confirmationLength}
-              text={`Password length should be from ${PASSWORD_LENGTH.MIN} to ${
-                PASSWORD_LENGTH.MAX
-              } symbols`}
-            />
-            <ErrorMessage
-              condition={this.props.formErrors.password.match}
-              text={"Passwords didn't match!"}
+            <TextField
+              type="password"
+              name="passwordConfirmation"
+              value={this.props.formValue.passwordConfirmation}
+              onChange={this.props.onFormChange('passwordConfirmation')}
+              label={
+                (this.props.formErrors.password.confirmationLength &&
+                  `Password length should be from ${PASSWORD_LENGTH.MIN} to ${
+                    PASSWORD_LENGTH.MAX
+                  } symbols`) ||
+                (this.props.formErrors.password.match &&
+                  "Passwords didn't match!") ||
+                'Confirm password'
+              }
+              error={
+                this.props.formErrors.password.length ||
+                this.props.formErrors.password.match
+              }
+              margin={INPUT_MARGIN}
             />
           </div>
-          <div className={css(styles.formSubmitRow)}>
-            <input
-              className={css(
-                styles.submitButton,
-                submitButtonIsDisabled(this.props) &&
-                  styles.disabledSubmitButton
-              )}
-              disabled={submitButtonIsDisabled(this.props)}
+          <div>
+            <Button
               type="submit"
-              value="Sign up"
-            />
+              variant="contained"
+              color="primary"
+              className={css(formStyles.button)}
+              disabled={submitButtonIsDisabled(this.props)}
+            >
+              Sign up
+            </Button>
+          </div>
+          <div className={css(styles.linkToRedirectContainer)}>
+            <Typography component="p">
+              Already have an account? You can&nbsp;
+              <Link to={ROUTES.AUTH.LOGIN}>Login</Link>!
+            </Typography>
           </div>
         </form>
       </div>

@@ -8,11 +8,6 @@ const formStyles = StyleSheet.create({
     'flex-flow': 'column',
     padding: '10px 0'
   },
-  formSubmitRow: {
-    display: 'flex',
-    'justify-content': 'flex-end',
-    'flex-flow': 'row'
-  },
   formContainer: {
     width: formWidth,
     display: 'flex',
@@ -35,6 +30,16 @@ const formStyles = StyleSheet.create({
   disabledSubmitButton: {
     background: '#9e9e9e87',
     color: '#fff'
+  },
+  button: {
+    width: '100%'
+  },
+  header: {
+    textAlign: 'center'
+  },
+  linkToRedirectContainer: {
+    marginTop: '10px',
+    textAlign: 'center'
   }
 });
 

@@ -20,7 +20,7 @@ const loginInitialState: LoginState = {
   data: {
     email: '',
     name: '',
-    showSuccessMessage: false
+    showSignUpSuccessMessage: false
   },
   error: null,
   loading: false
@@ -58,6 +58,9 @@ const SignUpReducer: Reducer<SignUpState> = (
         error: null
       };
     }
+    case SignUpStateActionTypes.CLEAR_DATA: {
+      return signUpInitialState;
+    }
     default: {
       return state;
     }
@@ -83,18 +86,16 @@ const loginReducer: Reducer<LoginState> = (
     case LoginStateActionTypes.FETCH_LOGIN_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
-    case LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE: {
+    case LoginStateActionTypes.SHOW_SIGN_UP_SUCCESS_MESSAGE: {
       return {
         ...state,
-        loading: false,
-        data: { ...state.data, showSuccessMessage: true }
+        data: { ...state.data, showSignUpSuccessMessage: true }
       };
     }
-    case LoginStateActionTypes.HIDE_INFO_SUCCESS_MESSAGE: {
+    case LoginStateActionTypes.HIDE_SIGN_UP_SUCCESS_MESSAGE: {
       return {
         ...state,
-        loading: false,
-        data: { ...state.data, showSuccessMessage: false }
+        data: { ...state.data, showSignUpSuccessMessage: false }
       };
     }
     default: {
