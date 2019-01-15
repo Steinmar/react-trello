@@ -4,6 +4,7 @@ import * as types from '../store/types';
 import BoardList from '../components/BoardList';
 import { BoardListModel } from '../models/BoardList.model';
 import { BoardListItem } from '../models/BoardList.model';
+import Spinner from 'src/shared/components/Spinner';
 import { Paper, Grid } from '@material-ui/core';
 import pageStyles from 'src/styles/page';
 import { css } from 'aphrodite';
@@ -49,7 +50,9 @@ class BoardListContainer extends React.Component<
   }
 
   public render() {
-    return (
+    return this.props.boards.loading ? (
+      <Spinner />
+    ) : (
       <Grid
         container={true}
         direction="row"
