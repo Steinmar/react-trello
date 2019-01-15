@@ -18,3 +18,7 @@ export function getPrimitivesArrayFromNestedCollection(
   }
   return result;
 }
+
+export function getUrlPrefix(urlWithParam: string) {
+  return urlWithParam.substring(0, urlWithParam.indexOf(':'));
+}
