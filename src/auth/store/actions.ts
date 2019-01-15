@@ -14,6 +14,8 @@ export const loginFetchRequestSuccess = data =>
   action(LoginStateActionTypes.FETCH_LOGIN_SUCCESS, data);
 export const loginFetchRequestError = data =>
   action(LoginStateActionTypes.FETCH_LOGIN_ERROR, data);
+export const loginShowSignUpMessage = () =>
+  action(LoginStateActionTypes.SHOW_SIGN_UP_SUCCESS_MESSAGE);
 
 export const logoutFetchRequest = () =>
   action(LoginStateActionTypes.FETCH_LOGOUT_REQUEST);

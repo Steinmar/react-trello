@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
     "@types/react-redux": "^6.0.12",
     "aphrodite": "^2.2.3",
     "connected-react-router": "^6.1.0",

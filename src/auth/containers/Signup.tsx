@@ -16,15 +16,19 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: types.SignUpStateActionTypes.FETCH_REQUEST, payload }),
   clearRedirectFlag: () =>
     dispatch({ type: types.SignUpStateActionTypes.CLEAR_REDIRECT_FLAG }),
-  showLoginInfoSuccessMessage: () =>
-    dispatch({ type: types.LoginStateActionTypes.SHOW_INFO_SUCCESS_MESSAGE })
+  clearData: () => dispatch({ type: types.SignUpStateActionTypes.CLEAR_DATA }),
+  triggerLoginSignupSuccessMessage: () =>
+    dispatch({
+      type: types.LoginStateActionTypes.TRIGGER_SIGN_UP_SUCCESS_MESSAGE
+    })
 });
 
 class Signup extends React.Component<
   {
     formSubmit: (agruments) => any;
     clearRedirectFlag: () => any;
-    showLoginInfoSuccessMessage: () => any;
+    clearData: () => any;
+    triggerLoginSignupSuccessMessage: () => any;
     signUp: types.SignUpState;
   },
   SignupFormState
@@ -82,9 +86,13 @@ class Signup extends React.Component<
     );
   }
 
+  public componentWillMount() {
+    this.props.clearData();
+  }
+
   public componentWillUnmount() {
     this.props.clearRedirectFlag();
-    this.props.showLoginInfoSuccessMessage();
+    this.props.triggerLoginSignupSuccessMessage();
   }
 
   private handleFormChange(prop: any) {

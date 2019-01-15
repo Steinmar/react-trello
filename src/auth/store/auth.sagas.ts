@@ -1,8 +1,10 @@
-import { all, call, fork, put, take } from 'redux-saga/effects';
+import { all, call, fork, put, take, select } from 'redux-saga/effects';
 import * as fromActions from './actions';
 import * as fromTypes from './types';
 import authApi from '../auth.api';
 import AuthTokenManager from 'src/core/AuthTokenManager';
+
+const getSignup = state => state.signUp;
 
 function* handleSignUpFetch(params) {
   try {
@@ -26,13 +28,9 @@ function* handleSignUpFetch(params) {
   }
 }
 
-function* watchSighUpFetchRequest() {
-  while (true) {
-    const { payload } = yield take(
-      fromTypes.SignUpStateActionTypes.FETCH_REQUEST
-    );
-
-    yield call(handleSignUpFetch, payload);
+function* handleTriggerLoginSighUpFetchRequest(signUp: fromTypes.SignUpState) {
+  if (signUp.data.name) {
+    yield put(fromActions.loginShowSignUpMessage());
   }
 }
 
@@ -58,28 +56,8 @@ function* handleLoginFetch(params) {
   }
 }
 
-function* watchLoginFetchRequest() {
-  while (true) {
-    const { payload } = yield take(
-      fromTypes.LoginStateActionTypes.FETCH_LOGIN_REQUEST
-    );
-
-    yield call(handleLoginFetch, payload);
-  }
-}
-
 function* handleLoginFetchSuccess(payload) {
   AuthTokenManager.setToken(payload.token);
-}
-
-function* watchLoginFetchSuccessRequest() {
-  while (true) {
-    const { payload } = yield take(
-      fromTypes.LoginStateActionTypes.FETCH_LOGIN_SUCCESS
-    );
-
-    yield call(handleLoginFetchSuccess, payload);
-  }
 }
 
 function* handleLogoutFetch() {
@@ -102,6 +80,36 @@ function* handleLogoutFetch() {
   }
 }
 
+function* watchLoginFetchRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.LoginStateActionTypes.FETCH_LOGIN_REQUEST
+    );
+
+    yield call(handleLoginFetch, payload);
+  }
+}
+
+function* watchSighUpFetchRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.SignUpStateActionTypes.FETCH_REQUEST
+    );
+
+    yield call(handleSignUpFetch, payload);
+  }
+}
+
+function* watchLoginFetchSuccessRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.LoginStateActionTypes.FETCH_LOGIN_SUCCESS
+    );
+
+    yield call(handleLoginFetchSuccess, payload);
+  }
+}
+
 function* watchLogoutFetchRequest() {
   while (true) {
     yield take(fromTypes.LoginStateActionTypes.FETCH_LOGOUT_REQUEST);
@@ -120,13 +128,23 @@ function* watchLogoutFetchSuccessRequest() {
   }
 }
 
+function* watchTriggerLoginSighUpFetchRequest() {
+  while (true) {
+    yield take(fromTypes.LoginStateActionTypes.TRIGGER_SIGN_UP_SUCCESS_MESSAGE);
+    const signUp = yield select(getSignup);
+
+    yield call(handleTriggerLoginSighUpFetchRequest, signUp);
+  }
+}
+
 function* authSaga() {
   yield all([
     fork(watchSighUpFetchRequest),
     fork(watchLoginFetchRequest),
     fork(watchLoginFetchSuccessRequest),
     fork(watchLogoutFetchRequest),
-    fork(watchLogoutFetchSuccessRequest)
+    fork(watchLogoutFetchSuccessRequest),
+    fork(watchTriggerLoginSighUpFetchRequest)
   ]);
 }
 
