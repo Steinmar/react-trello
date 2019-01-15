@@ -4,6 +4,11 @@ import * as types from '../store/types';
 import BoardList from '../components/BoardList';
 import { BoardListModel } from '../models/BoardList.model';
 import { BoardListItem } from '../models/BoardList.model';
+import { Paper, Grid } from '@material-ui/core';
+import pageStyles from 'src/styles/page';
+import { css } from 'aphrodite';
+
+const styles = pageStyles;
 
 const mapDispatchToProps = dispatch => ({
   getBoardList: () =>
@@ -45,13 +50,24 @@ class BoardListContainer extends React.Component<
 
   public render() {
     return (
-      <BoardList
-        list={this.props.boards.data}
-        error={this.props.boards.error}
-        addBoard={this.addBoardHandler}
-        updateBoard={this.updateBoardHandler}
-        deleteBoard={this.deleteBoardHandler}
-      />
+      <Grid
+        container={true}
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item={true} xs={12} lg={9} md={9}>
+          <Paper className={css(styles.paper)}>
+            <BoardList
+              list={this.props.boards.data}
+              error={this.props.boards.error}
+              addBoard={this.addBoardHandler}
+              updateBoard={this.updateBoardHandler}
+              deleteBoard={this.deleteBoardHandler}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
     );
   }
 

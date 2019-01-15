@@ -16,7 +16,7 @@ const mapDispatchToProps = dispatch => ({
       payload
     }),
   hideLoginInfoSuccessMessage: () =>
-    dispatch({ type: types.LoginStateActionTypes.HIDE_INFO_SUCCESS_MESSAGE })
+    dispatch({ type: types.LoginStateActionTypes.HIDE_SIGN_UP_SUCCESS_MESSAGE })
 });
 
 class Login extends React.Component<
@@ -54,7 +54,7 @@ class Login extends React.Component<
   public render() {
     return (
       <div>
-        {this.props.login.data.showSuccessMessage && (
+        {this.props.login.data.showSignUpSuccessMessage && (
           <InfoMessage
             text={
               'You was successfully signed up. Please use your credentials to login'
@@ -126,7 +126,6 @@ class Login extends React.Component<
     return errors;
   }
 }
-
 export default connect(
   state => state,
   mapDispatchToProps

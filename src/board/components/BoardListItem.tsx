@@ -3,6 +3,25 @@ import {
   BoardListItemProps,
   BoardListItemState
 } from '../models/BoardList.model';
+import {
+  ListItem,
+  ListItemText,
+  IconButton,
+  TextField,
+  Grid
+} from '@material-ui/core';
+import { Icon } from '@material-ui/core';
+import { css, StyleSheet } from 'aphrodite';
+
+const styles = StyleSheet.create({
+  name: {
+    display: 'inline-flex'
+  },
+  renameInput: {
+    'align-items': 'center',
+    display: 'flex'
+  }
+});
 
 class BoardListItem extends React.Component<
   BoardListItemProps,
@@ -22,24 +41,48 @@ class BoardListItem extends React.Component<
 
   public render() {
     return (
-      <div>
-        {this.state.newName ? (
-          <div>
-            <input
-              type="text"
-              value={this.state.newName}
-              onChange={this.newNameChange}
-            />
-            <button onClick={this.renameBoard}>save</button>
-          </div>
-        ) : (
-          <div>
-            <span>{this.props.name}</span>
-            <button onClick={this.renameBoard}>rename</button>
-          </div>
-        )}
-        <button onClick={this.deleteBoard}>delete</button>
-      </div>
+      <ListItem>
+        <Grid container={true}>
+          <Grid item={true} xs={4} alignItems="center">
+            {this.state.newName ? (
+              <Grid container={true} alignItems="center">
+                <Grid item={true} xs={10} className={css(styles.renameInput)}>
+                  <TextField
+                    type="text"
+                    value={this.state.newName}
+                    onChange={this.newNameChange}
+                    margin="none"
+                  />
+                </Grid>
+                <Grid item={true} xs={2}>
+                  <IconButton aria-label="Save" onClick={this.renameBoard}>
+                    <Icon>save</Icon>
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ) : (
+              <Grid container={true} alignItems="center">
+                <Grid item={true} xs={10}>
+                  <ListItemText
+                    primary={this.props.name}
+                    className={css(styles.name)}
+                  />
+                </Grid>
+                <Grid item={true} xs={2}>
+                  <IconButton aria-label="Rename" onClick={this.renameBoard}>
+                    <Icon>create</Icon>
+                  </IconButton>
+                </Grid>
+              </Grid>
+            )}
+          </Grid>
+          <Grid item={true} xs={1}>
+            <IconButton aria-label="Rename" onClick={this.deleteBoard}>
+              <Icon>delete</Icon>
+            </IconButton>
+          </Grid>
+        </Grid>
+      </ListItem>
     );
   }
 
