@@ -2,6 +2,7 @@ import { all, call, fork, put, take } from 'redux-saga/effects';
 import * as fromActions from './actions';
 import * as fromTypes from './types';
 import authApi from '../auth.api';
+import AuthTokenManager from 'src/core/AuthTokenManager';
 
 function* handleSignUpFetch(params) {
   try {
@@ -17,7 +18,9 @@ function* handleSignUpFetch(params) {
       yield put(fromActions.signInFetchRequestError(err.stack!));
     } else {
       yield put(
-        fromActions.signInFetchRequestError('An unknown error occured.')
+        fromActions.signInFetchRequestError({
+          error: 'An unknown error occured.'
+        })
       );
     }
   }
@@ -47,7 +50,9 @@ function* handleLoginFetch(params) {
       yield put(fromActions.loginFetchRequestError(err.stack!));
     } else {
       yield put(
-        fromActions.loginFetchRequestSuccess('An unknown error occured.')
+        fromActions.loginFetchRequestError({
+          error: 'An unknown error occured.'
+        })
       );
     }
   }
@@ -56,15 +61,73 @@ function* handleLoginFetch(params) {
 function* watchLoginFetchRequest() {
   while (true) {
     const { payload } = yield take(
-      fromTypes.LoginStateActionTypes.FETCH_REQUEST
+      fromTypes.LoginStateActionTypes.FETCH_LOGIN_REQUEST
     );
 
     yield call(handleLoginFetch, payload);
   }
 }
 
-function* authSaga() {
-  yield all([fork(watchSighUpFetchRequest), fork(watchLoginFetchRequest)]);
+function* handleLoginFetchSuccess(payload) {
+  AuthTokenManager.setToken(payload.token);
 }
 
-export default authSaga;
+function* watchLoginFetchSuccessRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.LoginStateActionTypes.FETCH_LOGIN_SUCCESS
+    );
+
+    yield call(handleLoginFetchSuccess, payload);
+  }
+}
+
+function* handleLogoutFetch() {
+  try {
+    const res = yield call(authApi, 'post', 'logout');
+
+    if (res.error) {
+      yield put(fromActions.logoutFetchRequestError(res.error));
+    } else {
+      yield put(fromActions.logoutFetchRequestSuccess());
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(fromActions.logoutFetchRequestError(err.stack!));
+    } else {
+      yield put(
+        fromActions.logoutFetchRequestError('An unknown error occured.')
+      );
+    }
+  }
+}
+
+function* watchLogoutFetchRequest() {
+  while (true) {
+    yield take(fromTypes.LoginStateActionTypes.FETCH_LOGOUT_REQUEST);
+    yield call(handleLogoutFetch);
+  }
+}
+
+function* handleLogoutFetchSuccess() {
+  AuthTokenManager.removeToken();
+}
+
+function* watchLogoutFetchSuccessRequest() {
+  while (true) {
+    yield take(fromTypes.LoginStateActionTypes.FETCH_LOGOUT_SUCCESS);
+    yield call(handleLogoutFetchSuccess);
+  }
+}
+
+function* authSaga() {
+  yield all([
+    fork(watchSighUpFetchRequest),
+    fork(watchLoginFetchRequest),
+    fork(watchLoginFetchSuccessRequest),
+    fork(watchLogoutFetchRequest),
+    fork(watchLogoutFetchSuccessRequest)
+  ]);
+}
+
+export { authSaga };

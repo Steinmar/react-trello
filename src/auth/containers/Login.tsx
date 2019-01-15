@@ -11,7 +11,10 @@ import LoginForm from '../components/LoginForm';
 
 const mapDispatchToProps = dispatch => ({
   formSubmit: payload =>
-    dispatch({ type: types.LoginStateActionTypes.FETCH_REQUEST, payload }),
+    dispatch({
+      type: types.LoginStateActionTypes.FETCH_LOGIN_REQUEST,
+      payload
+    }),
   hideLoginInfoSuccessMessage: () =>
     dispatch({ type: types.LoginStateActionTypes.HIDE_INFO_SUCCESS_MESSAGE })
 });
