@@ -3,19 +3,16 @@ import {
   BoardListItemProps,
   BoardListItemState
 } from '../models/BoardList.model';
-import {
-  ListItem,
-  ListItemText,
-  IconButton,
-  TextField,
-  Grid
-} from '@material-ui/core';
+import { ListItem, IconButton, TextField, Grid } from '@material-ui/core';
 import { Icon } from '@material-ui/core';
 import { css, StyleSheet } from 'aphrodite';
+import { Link } from 'react-router-dom';
+import { Link as MaterialLink } from '@material-ui/core';
+import { ROUTES } from 'src/core/Routes';
 
 const styles = StyleSheet.create({
-  name: {
-    display: 'inline-flex'
+  boardLink: {
+    color: '#2200ED'
   },
   renameInput: {
     'align-items': 'center',
@@ -43,7 +40,7 @@ class BoardListItem extends React.Component<
     return (
       <ListItem>
         <Grid container={true}>
-          <Grid item={true} xs={4} alignItems="center">
+          <Grid item={true} xs={4}>
             {this.state.newName ? (
               <Grid container={true} alignItems="center">
                 <Grid item={true} xs={10} className={css(styles.renameInput)}>
@@ -63,10 +60,12 @@ class BoardListItem extends React.Component<
             ) : (
               <Grid container={true} alignItems="center">
                 <Grid item={true} xs={10}>
-                  <ListItemText
-                    primary={this.props.name}
-                    className={css(styles.name)}
-                  />
+                  <Link
+                    className={css(styles.boardLink)}
+                    to={ROUTES.BOARDS.SELECTED_ITEM(this.props.id)}
+                  >
+                    <MaterialLink>{this.props.name}</MaterialLink>
+                  </Link>
                 </Grid>
                 <Grid item={true} xs={2}>
                   <IconButton aria-label="Rename" onClick={this.renameBoard}>

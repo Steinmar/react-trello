@@ -31,7 +31,6 @@ class BoardList extends React.Component<BoardListProps> {
         )}
         <br />
         <Grid container={true} justify="flex-end">
-          {/* <Grid item={true}> */}
           <Button
             variant="contained"
             color="primary"
@@ -40,7 +39,6 @@ class BoardList extends React.Component<BoardListProps> {
             Create new
           </Button>
         </Grid>
-        {/* </Grid> */}
       </div>
     );
   }

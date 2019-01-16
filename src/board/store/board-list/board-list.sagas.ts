@@ -1,6 +1,6 @@
 import { all, call, fork, put, take } from 'redux-saga/effects';
-import * as fromActions from './actions';
-import * as fromTypes from './types';
+import * as fromActions from './board-list.actions';
+import * as fromTypes from './board-list.types';
 import api from 'src/core/api';
 
 function* handleBoardListFetch() {
@@ -123,7 +123,7 @@ function* watchBoardListUpdateItemRequest() {
   }
 }
 
-function* boardsSaga() {
+function* boardListSaga() {
   yield all([
     fork(watchBoardFetchRequest),
     fork(watchBoardListCreateItemRequest),
@@ -132,4 +132,4 @@ function* boardsSaga() {
   ]);
 }
 
-export { boardsSaga };
+export { boardListSaga };

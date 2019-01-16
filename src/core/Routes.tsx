@@ -1,3 +1,6 @@
+import { getUrlPrefix } from 'src/utils';
+
+const BOARD_ITEM_BASE = '/board:boardId';
 export const ROUTES = {
   ROOT_PAGE: '/',
   AUTH: {
@@ -6,7 +9,8 @@ export const ROUTES = {
   },
   BOARDS: {
     LIST: '/boards-list',
-    ITEM: '/board:boardId'
+    ITEM: BOARD_ITEM_BASE,
+    SELECTED_ITEM: (boardId: string) => getUrlPrefix(BOARD_ITEM_BASE) + boardId
   },
   TASKS: {
     ITEM: '/task:taskId'
