@@ -16,6 +16,7 @@ import Signup from './auth/containers/Signup';
 import StartPage from './shared/components/StartPage';
 import BoardListContainer from './board/containers/BoardListContainer';
 import BoardDetails from './board/containers/BoardDetails';
+import Header from './shared/containers/Header';
 
 interface PropsFromDispatch {
   [key: string]: any;
@@ -36,52 +37,55 @@ class Routes extends React.Component<AllProps> {
 
   public render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route
-            exact={true}
-            path="/"
-            // tslint:disable-next-line jsx-no-lambda
-            render={() =>
-              this.props.loggedIn ? (
-                <Redirect to={ROUTES.BOARDS.LIST} />
-              ) : (
-                <StartPage />
-              )
-            }
-          />
-          <ConditionalRoute
-            path={ROUTES.AUTH.LOGIN}
-            component={Login}
-            routeCondition={!this.props.loggedIn}
-            redirectTo={ROUTES.ROOT_PAGE}
-          />
-          <ConditionalRoute
-            path={ROUTES.AUTH.SIGN_UP}
-            component={Signup}
-            routeCondition={!this.props.loggedIn}
-            redirectTo={ROUTES.ROOT_PAGE}
-          />
-          <ConditionalRoute
-            path={ROUTES.BOARDS.LIST}
-            component={BoardListContainer}
-            routeCondition={this.props.loggedIn}
-            redirectTo={ROUTES.ROOT_PAGE}
-          />
-          <ConditionalRoute
-            path={ROUTES.BOARDS.ITEM}
-            component={BoardDetails}
-            routeCondition={this.props.loggedIn}
-            redirectTo={ROUTES.ROOT_PAGE}
-          />
-          <Route
-            exact={true}
-            path="*"
-            // tslint:disable-next-line jsx-no-lambda
-            render={() => <Redirect to="/" />}
-          />
-        </Switch>
-      </BrowserRouter>
+      <div>
+        {this.props.loggedIn && <Header />}
+        <BrowserRouter>
+          <Switch>
+            <Route
+              exact={true}
+              path="/"
+              // tslint:disable-next-line jsx-no-lambda
+              render={() =>
+                this.props.loggedIn ? (
+                  <Redirect to={ROUTES.BOARDS.LIST} />
+                ) : (
+                  <StartPage />
+                )
+              }
+            />
+            <ConditionalRoute
+              path={ROUTES.AUTH.LOGIN}
+              component={Login}
+              routeCondition={!this.props.loggedIn}
+              redirectTo={ROUTES.ROOT_PAGE}
+            />
+            <ConditionalRoute
+              path={ROUTES.AUTH.SIGN_UP}
+              component={Signup}
+              routeCondition={!this.props.loggedIn}
+              redirectTo={ROUTES.ROOT_PAGE}
+            />
+            <ConditionalRoute
+              path={ROUTES.BOARDS.LIST}
+              component={BoardListContainer}
+              routeCondition={this.props.loggedIn}
+              redirectTo={ROUTES.ROOT_PAGE}
+            />
+            <ConditionalRoute
+              path={ROUTES.BOARDS.ITEM}
+              component={BoardDetails}
+              routeCondition={this.props.loggedIn}
+              redirectTo={ROUTES.ROOT_PAGE}
+            />
+            <Route
+              exact={true}
+              path="*"
+              // tslint:disable-next-line jsx-no-lambda
+              render={() => <Redirect to="/" />}
+            />
+          </Switch>
+        </BrowserRouter>
+      </div>
     );
   }
 }

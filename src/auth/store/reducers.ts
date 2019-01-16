@@ -72,6 +72,9 @@ const loginReducer: Reducer<LoginState> = (
   action
 ) => {
   switch (action.type) {
+    case LoginStateActionTypes.FETCH_LOGOUT_SUCCESS: {
+      return loginInitialState;
+    }
     case LoginStateActionTypes.FETCH_LOGIN_REQUEST: {
       return { ...state, loading: true, error: null };
     }
