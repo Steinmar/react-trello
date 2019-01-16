@@ -15,7 +15,7 @@ import Login from './auth/containers/Login';
 import Signup from './auth/containers/Signup';
 import StartPage from './shared/components/StartPage';
 import BoardListContainer from './board/containers/BoardListContainer';
-import BoardContainer from './board/containers/BoardContainer';
+import BoardDetails from './board/containers/BoardDetails';
 
 interface PropsFromDispatch {
   [key: string]: any;
@@ -70,7 +70,7 @@ class Routes extends React.Component<AllProps> {
           />
           <ConditionalRoute
             path={ROUTES.BOARDS.ITEM}
-            component={BoardContainer}
+            component={BoardDetails}
             routeCondition={this.props.loggedIn}
             redirectTo={ROUTES.ROOT_PAGE}
           />

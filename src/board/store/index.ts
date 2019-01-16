@@ -1,3 +1,3 @@
-export * from './board.sagas';
+export * from './boards.sagas.index';
 export * from './types';
 export * from './reducers';

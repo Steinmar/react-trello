@@ -1,8 +1,6 @@
 import { getUrlPrefix } from 'src/utils';
 
 const BOARD_ITEM_BASE = '/board:boardId';
-console.log(getUrlPrefix(BOARD_ITEM_BASE));
-
 export const ROUTES = {
   ROOT_PAGE: '/',
   AUTH: {

@@ -12,14 +12,20 @@ import {
   SignUpReducer,
   authSaga
 } from 'src/auth/store';
-import { BoardListState, BoardListReducer, boardsSaga } from 'src/board/store';
+import {
+  BoardListState,
+  BoardDetailsState,
+  BoardListReducer,
+  BoardDetailsReducer,
+  boardsSaga
+} from 'src/board/store';
 
 export interface ApplicationState {
   router: Reducer<Reducer<RouterState, LocationChangeAction>, AnyAction>;
   login: LoginState;
   signUp: SignUpState;
   boards: BoardListState;
-  userState: any;
+  board: BoardDetailsState;
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
@@ -31,7 +37,8 @@ export function createRootReducer(history) {
     router: connectRouter(history),
     login: loginReducer,
     signUp: SignUpReducer,
-    boards: BoardListReducer
+    boards: BoardListReducer,
+    board: BoardDetailsReducer
   } as any);
 }
 
