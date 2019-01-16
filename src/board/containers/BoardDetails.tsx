@@ -9,21 +9,41 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: types.BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST,
       id
-    })
+    }),
+  addColumn: () => null,
+  addTask: () => null
 });
 
 class BoardDetails extends React.Component<BoardDetailsProps> {
   constructor(props: any) {
     super(props);
     this.props.loadData(this.props.match.params.boardId);
+    this.addNewColumnHandler = this.addNewColumnHandler.bind(this);
+    this.addNewTaskHandler = this.addNewTaskHandler.bind(this);
   }
 
   public render() {
-    return <Board />;
+    return (
+      <Board
+        id={this.props.data.id}
+        name={this.props.data.name}
+        columns={this.props.data.columns}
+        addNewColumn={this.addNewColumnHandler}
+        addNewTask={this.addNewTaskHandler}
+      />
+    );
+  }
+
+  public addNewColumnHandler() {
+    this.props.addColumn();
+  }
+
+  public addNewTaskHandler() {
+    this.props.addTask();
   }
 }
 
 export default connect(
-  state => state,
+  state => (state as any).board,
   mapDispatchToProps
 )(BoardDetails);
