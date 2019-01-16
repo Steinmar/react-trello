@@ -5,7 +5,8 @@ import api from 'src/core/api';
 
 function* handleBoardDetailsFetch(id: string) {
   try {
-    const res = yield call(api, 'get', `board/${id}`);
+    const res = yield call(api, 'get', `board/${id}/details`);
+    // const res = yield call(api, 'get', `board/${id}`);
 
     if (res.error) {
       yield put(fromActions.boardDetailsFetchRequestError(res.error));
@@ -26,7 +27,7 @@ function* handleBoardDetailsFetch(id: string) {
 function* watchBoardFetchRequest() {
   while (true) {
     const { id } = yield take(
-      fromTypes.BoardDetailsStateActionTypes.FETCH_REQUEST
+      fromTypes.BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST
     );
 
     yield call(handleBoardDetailsFetch, id);

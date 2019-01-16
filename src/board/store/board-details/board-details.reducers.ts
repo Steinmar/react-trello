@@ -16,17 +16,17 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
   action
 ) => {
   switch (action.type) {
-    case BoardDetailsStateActionTypes.FETCH_REQUEST: {
+    case BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST: {
       return { ...state, loading: true, error: null };
     }
-    case BoardDetailsStateActionTypes.FETCH_SUCCESS: {
+    case BoardDetailsStateActionTypes.FETCH_DETAILS_SUCCESS: {
       return {
         ...state,
         loading: false,
         data: action.payload
       };
     }
-    case BoardDetailsStateActionTypes.FETCH_ERROR: {
+    case BoardDetailsStateActionTypes.FETCH_DETAILS_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
 
