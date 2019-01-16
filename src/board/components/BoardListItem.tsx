@@ -64,7 +64,9 @@ class BoardListItem extends React.Component<
                     className={css(styles.boardLink)}
                     to={ROUTES.BOARDS.SELECTED_ITEM(this.props.id)}
                   >
-                    <MaterialLink>{this.props.name}</MaterialLink>
+                    <MaterialLink component="button" variant="body1">
+                      {this.props.name}
+                    </MaterialLink>
                   </Link>
                 </Grid>
                 <Grid item={true} xs={2}>
