@@ -7,6 +7,7 @@ import { ListItem, IconButton, TextField, Grid } from '@material-ui/core';
 import { Icon } from '@material-ui/core';
 import { css, StyleSheet } from 'aphrodite';
 import { Link } from 'react-router-dom';
+import { Link as MaterialLink } from '@material-ui/core';
 import { ROUTES } from 'src/core/Routes';
 
 const styles = StyleSheet.create({
@@ -63,7 +64,7 @@ class BoardListItem extends React.Component<
                     className={css(styles.boardLink)}
                     to={ROUTES.BOARDS.SELECTED_ITEM(this.props.id)}
                   >
-                    {this.props.name}
+                    <MaterialLink>{this.props.name}</MaterialLink>
                   </Link>
                 </Grid>
                 <Grid item={true} xs={2}>
