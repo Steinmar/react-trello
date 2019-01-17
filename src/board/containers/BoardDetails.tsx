@@ -10,7 +10,11 @@ const mapDispatchToProps = dispatch => ({
       type: types.BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST,
       id
     }),
-  addColumn: () => null,
+  addColumn: boardId =>
+    dispatch({
+      type: types.BoardDetailsStateActionTypes.ADD_COLUMN_REQUEST,
+      payload: boardId
+    }),
   addTask: () => null
 });
 
@@ -35,7 +39,7 @@ class BoardDetails extends React.Component<BoardDetailsProps> {
   }
 
   public addNewColumnHandler() {
-    this.props.addColumn();
+    this.props.addColumn(this.props.data.id);
   }
 
   public addNewTaskHandler() {

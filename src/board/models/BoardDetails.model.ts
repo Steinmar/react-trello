@@ -39,7 +39,7 @@ export interface BoardDetailsProps
   data: BoardDetailsModel;
   error: Error | null;
   loadData: (id: string) => void;
-  addColumn: () => void;
+  addColumn: (boardId: string) => void;
   addTask: () => void;
   deleteColumn: (event) => void;
   renameColumn: (event) => void;

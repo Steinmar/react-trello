@@ -16,7 +16,8 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
   action
 ) => {
   switch (action.type) {
-    case BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST: {
+    case BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST:
+    case BoardDetailsStateActionTypes.ADD_COLUMN_REQUEST: {
       return { ...state, loading: true, error: null };
     }
     case BoardDetailsStateActionTypes.FETCH_DETAILS_SUCCESS: {
