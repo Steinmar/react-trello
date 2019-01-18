@@ -5,6 +5,7 @@ import {
   LoginState,
   LoginStateActionTypes
 } from './types';
+import AuthManager from 'src/core/AuthTokenManager';
 
 const signUpInitialState: SignUpState = {
   data: {
@@ -16,10 +17,18 @@ const signUpInitialState: SignUpState = {
   loading: false
 };
 
+const localAuthData = AuthManager.getAuthData();
+const noUserInfoData = { email: '', name: '' };
+const initialUserInfo = localAuthData
+  ? {
+      email: localAuthData.email,
+      name: localAuthData.name
+    }
+  : noUserInfoData;
+
 const loginInitialState: LoginState = {
   data: {
-    email: '',
-    name: '',
+    ...initialUserInfo,
     showSignUpSuccessMessage: false
   },
   error: null,
@@ -73,7 +82,13 @@ const loginReducer: Reducer<LoginState> = (
 ) => {
   switch (action.type) {
     case LoginStateActionTypes.FETCH_LOGOUT_SUCCESS: {
-      return loginInitialState;
+      return {
+        ...loginInitialState,
+        data: {
+          ...loginInitialState.data,
+          ...noUserInfoData
+        }
+      };
     }
     case LoginStateActionTypes.FETCH_LOGIN_REQUEST: {
       return { ...state, loading: true, error: null };

@@ -2,7 +2,7 @@ import { all, call, fork, put, take, select } from 'redux-saga/effects';
 import * as fromActions from './actions';
 import * as fromTypes from './types';
 import authApi from '../auth.api';
-import AuthTokenManager from 'src/core/AuthTokenManager';
+import AuthManager from 'src/core/AuthTokenManager';
 
 const getSignup = state => state.signUp;
 
@@ -57,7 +57,7 @@ function* handleLoginFetch(params) {
 }
 
 function* handleLoginFetchSuccess(payload) {
-  AuthTokenManager.setToken(payload.token);
+  AuthManager.setAuthData(payload);
 }
 
 function* handleLogoutFetch() {
@@ -105,7 +105,6 @@ function* watchLoginFetchSuccessRequest() {
     const { payload } = yield take(
       fromTypes.LoginStateActionTypes.FETCH_LOGIN_SUCCESS
     );
-
     yield call(handleLoginFetchSuccess, payload);
   }
 }
@@ -118,7 +117,7 @@ function* watchLogoutFetchRequest() {
 }
 
 function* handleLogoutFetchSuccess() {
-  AuthTokenManager.removeToken();
+  AuthManager.clear();
 }
 
 function* watchLogoutFetchSuccessRequest() {

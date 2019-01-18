@@ -6,11 +6,6 @@ export interface BoardListItem {
   error?: Error;
 }
 
-export interface BoardListItemProps extends BoardListItem {
-  renameBoard: (event) => void;
-  deleteBoard: (event) => void;
-}
-
 export interface BoardListProps {
   list: BoardListItem[];
   error: Error | null;

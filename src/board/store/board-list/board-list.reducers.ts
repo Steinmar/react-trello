@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { BoardListState } from './board-list.types';
 import { BoardListStateActionTypes } from './board-list.types';
+import * as _ from 'lodash';
 
 const boardListInitialState: BoardListState = {
   data: [],
@@ -49,20 +50,17 @@ const BoardListReducer: Reducer<BoardListState> = (
       };
     }
     case BoardListStateActionTypes.UPDATE_ITEM_SUCCESS: {
+      const data = _.map(state.data, _.clone);
       const updatedItem = action.payload;
       const updatedItemIndex = state.data.findIndex(
         element => element.id === updatedItem.id
       );
-      const beforeItemArr = state.data.slice(0, updatedItemIndex);
-      const afterItemArr = state.data.slice(
-        updatedItemIndex + 1,
-        state.data.length
-      );
+      data[updatedItemIndex] = updatedItem;
       return {
         ...state,
         loading: false,
         error: null,
-        data: [...beforeItemArr, updatedItem, ...afterItemArr]
+        data
       };
     }
     default: {

@@ -1,5 +1,5 @@
 import { AUTH_NAMES } from 'src/auth/CONSTANTS';
-import AuthTokenManager from './AuthTokenManager';
+import AuthManager from './AuthTokenManager';
 
 export const BASE_URL =
   process.env.NODE_ENV === 'development'
@@ -12,7 +12,7 @@ export default function api(method: string, path: string, data?: any) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      [AUTH_NAMES.TOKEN_HEADER_NAME]: AuthTokenManager.getToken()
+      [AUTH_NAMES.TOKEN_HEADER_NAME]: AuthManager.getToken()
     },
     body: JSON.stringify(data)
   }).then(res => res.json());
