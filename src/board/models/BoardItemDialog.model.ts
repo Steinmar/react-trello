@@ -1,8 +1,8 @@
 export interface BoardItemDialogProps {
   type: string;
-  bookedNames?: string[];
+  prohibitedNames?: string[];
   newNameChanged?: (name) => void;
-  saveNewName: () => void;
+  saveNewName: (name: string) => void;
 }
 
 export interface BoardItemDialogState {

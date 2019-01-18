@@ -18,6 +18,7 @@ export interface TaskModel extends TaskBaseModel {
 }
 
 export interface ColumnModel {
+  id: string;
   boardId: string;
   name: string;
   order: number;
@@ -39,18 +40,28 @@ export interface BoardDetailsProps
   data: BoardDetailsModel;
   error: Error | null;
   loadData: (id: string) => void;
-  addColumn: (boardId: string) => void;
+  addColumn: (data: NewColumnData) => void;
   addTask: () => void;
   deleteColumn: (event) => void;
   renameColumn: (event) => void;
+  updateColumn: (event) => void;
+}
+
+export interface NewColumnData {
+  name: string;
+  boardId: string;
 }
 
 export interface BoardProps extends BoardDetailsModel {
-  addNewColumn: () => void;
+  columnProhibitedNames: string[];
+  addNewColumn: (data: NewColumnData) => void;
   addNewTask: () => void;
+  renameColumn: (data: ColumnModel) => void;
 }
 export interface ColumnProps extends ColumnModel {
+  columnProhibitedNames: string[];
   addNewTask: () => void;
+  renameColumn: (data: ColumnModel) => void;
 }
 
 export type ShortTaskProps = TaskBaseModel;

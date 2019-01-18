@@ -93,12 +93,12 @@ class NewBoardItemDialog extends React.Component<
   }
 
   private cancelAddingHandler() {
-    this.setState({ showInput: false });
+    this.resetState();
   }
 
   private saveNewNameHandler() {
-    this.setState({ showInput: false });
-    this.props.saveNewName();
+    this.props.saveNewName(this.state.name);
+    this.resetState();
   }
 
   private addingNewItemHandler() {
@@ -106,13 +106,19 @@ class NewBoardItemDialog extends React.Component<
   }
 
   private isNewNameAllowed(name: string) {
-    const bookedNames = this.props.bookedNames || [];
-    return bookedNames.includes(name);
+    return (this.props.prohibitedNames || []).includes(name);
   }
 
   private isSaveButtonDisabled() {
     const name = this.state.name;
     return name.length < 1 || this.isNewNameAllowed(name);
+  }
+
+  private resetState() {
+    this.setState({
+      showInput: false,
+      name: ''
+    });
   }
 }
 
