@@ -15,5 +15,13 @@ export default function api(method: string, path: string, data?: any) {
       [AUTH_NAMES.TOKEN_HEADER_NAME]: AuthManager.getToken()
     },
     body: JSON.stringify(data)
-  }).then(res => res.json());
+  }).then(
+    res => {
+      if (res.status === 401) {
+        throw new Error('401');
+      }
+      return res.json();
+    },
+    error => error
+  );
 }

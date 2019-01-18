@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Typography, Card, CardContent, CardActions } from '@material-ui/core';
-import { ColumnProps } from '../models/BoardDetails.model';
+import { ColumnProps } from '../models/Column.model';
 import ShortTask from './ShortTask';
 import NewBoardItemDialog from './NewBoardItemDialog';
 import EditableTitle from 'src/shared/components/EditableTitle';
@@ -11,9 +11,21 @@ class Column extends React.Component<ColumnProps> {
     super(props);
 
     this.renameColumnHandler = this.renameColumnHandler.bind(this);
+    this.addNewTaskHandler = this.addNewTaskHandler.bind(this);
   }
 
   public render() {
+    const taskList = this.props.tasks.map(task => (
+      <ShortTask
+        key={task.id}
+        id={task.id}
+        boardId={this.props.boardId}
+        columnId={this.props.id}
+        name={task.name}
+        order={task.order}
+        selectTask={this.props.selectTask}
+      />
+    ));
     return (
       <div>
         <Card>
@@ -26,14 +38,12 @@ class Column extends React.Component<ColumnProps> {
             >
               <Typography variant="h6">{this.props.name}</Typography>
             </EditableTitle>
-            <Typography component="div">
-              <ShortTask boardId={'1'} name={'Lorem ipsum'} order={0} />
-            </Typography>
+            <Typography component="div">{taskList}</Typography>
           </CardContent>
           <CardActions>
             <NewBoardItemDialog
               type={'task'}
-              saveNewName={this.props.addNewTask}
+              saveNewName={this.addNewTaskHandler}
             />
           </CardActions>
         </Card>
@@ -48,6 +58,14 @@ class Column extends React.Component<ColumnProps> {
       tasks: this.props.tasks,
       id: data.id,
       name: data.name
+    });
+  }
+
+  private addNewTaskHandler(name: string) {
+    this.props.addNewTask({
+      name,
+      columnId: this.props.id,
+      boardId: this.props.boardId
     });
   }
 }

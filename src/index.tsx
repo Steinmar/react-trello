@@ -14,8 +14,6 @@ const initialState = window.initialReduxState;
 
 const store = configureStore(history, initialState);
 
-// import { AnyAction, Store } from 'redux';
-
 ReactDOM.render(
   <App store={store} history={history} />,
   document.getElementById('root') as HTMLElement

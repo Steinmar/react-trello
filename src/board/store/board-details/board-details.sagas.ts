@@ -2,7 +2,9 @@ import { all, call, fork, put, take, select } from 'redux-saga/effects';
 import * as fromActions from './board-details.actions';
 import * as fromTypes from './board-details.types';
 import api from 'src/core/api';
-import { ColumnModel } from 'src/board/models/BoardDetails.model';
+import requestErrorHandler from 'src/core/requestErrorHandler';
+import { ColumnModel } from 'src/board/models/Column.model';
+import { TaskBaseModel } from 'src/task-card/models/Task.model';
 
 const getActiveBoard = state => state.board;
 
@@ -16,13 +18,7 @@ function* handleBoardDetailsFetch(id: string) {
       yield put(fromActions.boardDetailsFetchRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.boardDetailsFetchRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.boardDetailsFetchRequestError('An unknown error occured.')
-      );
-    }
+    yield requestErrorHandler(err, fromActions.boardDetailsFetchRequestError);
   }
 }
 
@@ -45,13 +41,7 @@ function* handleAddColumnsFetch(params: ColumnModel) {
       yield put(fromActions.AddColumnFetchRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.AddColumnFetchRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.AddColumnFetchRequestError('An unknown error occured.')
-      );
-    }
+    yield requestErrorHandler(err, fromActions.AddColumnFetchRequestError);
   }
 }
 
@@ -70,13 +60,29 @@ function* handleUpdateColumnsFetch(params: ColumnModel) {
       yield put(fromActions.UpdateColumnFetchRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.UpdateColumnFetchRequestError(err.stack!));
+    yield requestErrorHandler(err, fromActions.UpdateColumnFetchRequestError);
+  }
+}
+
+function* handleAddTaskFetch(params: TaskBaseModel) {
+  try {
+    const res = yield call(
+      api,
+      'post',
+      `board/${params.boardId}/column/${params.columnId}/task`,
+      params
+    );
+
+    if (res.error) {
+      yield put(fromActions.AddTaskToColumnFetchRequestError(res.error));
     } else {
-      yield put(
-        fromActions.UpdateColumnFetchRequestError('An unknown error occured.')
-      );
+      yield put(fromActions.AddTaskToColumnFetchRequestSuccess(res));
     }
+  } catch (err) {
+    yield requestErrorHandler(
+      err,
+      fromActions.AddTaskToColumnFetchRequestError
+    );
   }
 }
 
@@ -114,11 +120,29 @@ function* watchUpdateColumnsFetchRequest() {
   }
 }
 
+function* watchAddTaskFetchRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_REQUEST
+    );
+    const { data } = yield select(getActiveBoard);
+    const parentColumn = data.columns.find(
+      column => column.id === payload.columnId
+    );
+
+    yield call(handleAddTaskFetch, {
+      ...payload,
+      order: parentColumn.tasks.length
+    });
+  }
+}
+
 function* boardDetailsSaga() {
   yield all([
     fork(watchBoardFetchRequest),
     fork(watchAddColumnsFetchRequest),
-    fork(watchUpdateColumnsFetchRequest)
+    fork(watchUpdateColumnsFetchRequest),
+    fork(watchAddTaskFetchRequest)
   ]);
 }
 
