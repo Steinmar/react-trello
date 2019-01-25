@@ -127,7 +127,9 @@ class BoardDetails extends React.Component<
     // we need to do this because our single point of truth is on the backend
     // in fact we should update task data in the reducer but I don't want
     // to merge task reducer with board reducer
-    this.props.loadData(this.props.match.params.boardId);
+    if (dataWasChanged) {
+      this.props.loadData(this.props.match.params.boardId);
+    }
     this.setState({ shownTaskDataPopup: null });
   }
 
@@ -136,11 +138,6 @@ class BoardDetails extends React.Component<
       this.props.deleteColumn(this.state.columnDataToDelete);
     }
     this.setState({ shownDeleteColumnPopup: false });
-    if (dataWasChanged) {
-      this.props.loadData(this.props.match.params.boardId);
-    }
-
-    this.setState({ shownTaskData: null });
   }
 }
 
