@@ -39,7 +39,6 @@ class TaskDetailsPopup extends React.Component<
     };
 
     this.taskDataChangeHandler = this.taskDataChangeHandler.bind(this);
-    this.saveChanges = this.saveChanges.bind(this);
     this.closeHandler = this.closeHandler.bind(this);
   }
 
@@ -101,18 +100,18 @@ class TaskDetailsPopup extends React.Component<
     return { name, description, status, availableStatuses };
   }
 
-  private saveChanges() {
+  private saveChanges(): boolean {
     if (this.props.data && this.state.changes && this.props.updateTask) {
       this.props.updateTask(
         _.merge({}, this.props.data.task, this.state.changes)
       );
+      return true;
     }
-    this.props.closeAndSubmit();
+    return false;
   }
 
   private closeHandler() {
-    this.saveChanges();
-    this.props.closeAndSubmit();
+    this.props.closeAndSubmit(this.saveChanges());
   }
 }
 

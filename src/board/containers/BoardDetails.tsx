@@ -104,11 +104,14 @@ class BoardDetails extends React.Component<
     this.setState({ shownTaskData: data });
   }
 
-  private closeTaskDetailsPopup() {
+  private closeTaskDetailsPopup(dataWasChanged: boolean) {
     // we need to do this because our single point of truth is on the backend
     // in fact we should update task data in the reducer but I don't want
     // to merge task reducer with board reducer
-    this.props.loadData(this.props.match.params.boardId);
+    if (dataWasChanged) {
+      this.props.loadData(this.props.match.params.boardId);
+    }
+
     this.setState({ shownTaskData: null });
   }
 }
