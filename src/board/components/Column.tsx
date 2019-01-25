@@ -1,16 +1,33 @@
 import * as React from 'react';
-import { Typography, Card, CardContent, CardActions } from '@material-ui/core';
+import {
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  IconButton,
+  Icon,
+  Grid
+} from '@material-ui/core';
 import { ColumnProps } from '../models/Column.model';
 import ShortTask from './ShortTask';
 import NewBoardItemDialog from './NewBoardItemDialog';
 import EditableTitle from 'src/shared/components/EditableTitle';
 import { EditableTitleResult } from 'src/core/models/EditableTitle';
+import { StyleSheet, css } from 'aphrodite';
+
+const styles = StyleSheet.create({
+  deleteContainer: {
+    display: 'flex',
+    'justify-content': 'flex-end'
+  }
+});
 
 class Column extends React.Component<ColumnProps> {
   constructor(props: ColumnProps) {
     super(props);
 
     this.renameColumnHandler = this.renameColumnHandler.bind(this);
+    this.deleteColumnHandler = this.deleteColumnHandler.bind(this);
     this.addNewTaskHandler = this.addNewTaskHandler.bind(this);
   }
 
@@ -30,14 +47,23 @@ class Column extends React.Component<ColumnProps> {
       <div>
         <Card>
           <CardContent>
-            <EditableTitle
-              id={this.props.id}
-              title={this.props.name}
-              editTitle={this.renameColumnHandler}
-              prohibitedNames={this.props.columnProhibitedNames}
-            >
-              <Typography variant="h6">{this.props.name}</Typography>
-            </EditableTitle>
+            <Grid container={true} direction="row">
+              <Grid item={true} xs={10}>
+                <EditableTitle
+                  id={this.props.id}
+                  title={this.props.name}
+                  editTitle={this.renameColumnHandler}
+                  prohibitedNames={this.props.columnProhibitedNames}
+                >
+                  <Typography variant="h6">{this.props.name}</Typography>
+                </EditableTitle>
+              </Grid>
+              <Grid item={true} xs={2} className={css(styles.deleteContainer)}>
+                <IconButton onClick={this.deleteColumnHandler}>
+                  <Icon>delete_forever</Icon>
+                </IconButton>
+              </Grid>
+            </Grid>
             <Typography component="div">{taskList}</Typography>
           </CardContent>
           <CardActions>
@@ -58,6 +84,16 @@ class Column extends React.Component<ColumnProps> {
       tasks: this.props.tasks,
       id: data.id,
       name: data.name
+    });
+  }
+
+  private deleteColumnHandler() {
+    this.props.deleteColumn({
+      boardId: this.props.boardId,
+      order: this.props.order,
+      tasks: this.props.tasks,
+      id: this.props.id,
+      name: this.props.name
     });
   }
 

@@ -27,7 +27,9 @@ export interface BoardDetailsProps
 }
 
 export interface BoardDetailsState {
-  shownTaskData: SelectedTaskData | null;
+  shownTaskDataPopup: SelectedTaskData | null;
+  shownDeleteColumnPopup: boolean;
+  columnDataToDelete?: ColumnModel;
 }
 
 export interface BoardProps extends BoardDetailsModel {
@@ -35,6 +37,7 @@ export interface BoardProps extends BoardDetailsModel {
   addNewColumn: (data: NewColumnData) => void;
   addNewTask: (data: NewTask) => void;
   renameColumn: (data: ColumnModel) => void;
+  deleteColumn: (data: ColumnModel) => void;
   selectTask: (data) => void;
 }
 
