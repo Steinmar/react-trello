@@ -10,7 +10,8 @@ export enum InfoMessageType {
   SUCCESS = 'success'
 }
 export interface InfoMessageProps {
-  text: string;
+  text: string | string[];
+  children?: React.ReactNode;
   type?: InfoMessageType;
 }
 
@@ -47,12 +48,17 @@ const styles = StyleSheet.create({
 
 function InfoMessage(props: InfoMessageProps) {
   const type = props.type || InfoMessageType.WARNING;
+  const preparedText =
+    typeof props.text === 'string'
+      ? props.text
+      : props.text.map(item => <div key={item}>{item}</div>);
   return (
     <div className={css(styles.wrapper)}>
       <Card className={css(styles.message, styles[type])}>
         <CardContent className={css(styles.cardContent)}>
-          <Typography component="span" color="textPrimary">
-            {props.text}
+          <Typography component="div" color="textPrimary">
+            {preparedText}
+            {props.children}
           </Typography>
         </CardContent>
       </Card>

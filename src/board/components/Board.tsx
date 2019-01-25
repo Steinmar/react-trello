@@ -12,7 +12,16 @@ const customStyles = StyleSheet.create({
     'flex-wrap': 'inherit'
   },
   infiniteInternalWidth: {
-    'overflow-x': 'auto'
+    'overflow-x': 'auto',
+    'min-height': '90vh'
+    // this will affect all pager styles!
+    // height: 'calc(100% - 84px)'
+  },
+  newDialog: {
+    width: '167px'
+  },
+  column: {
+    'min-width': '340px'
   }
 });
 
@@ -25,17 +34,20 @@ class Board extends React.Component<BoardProps> {
 
   public render() {
     const columnList = this.props.columns.map(column => (
-      <Grid item={true} key={column.id} xs={5} lg={3} md={4} sm={5}>
-        <Column
-          id={column.id}
-          boardId={column.boardId}
-          name={column.name}
-          order={column.order}
-          tasks={column.tasks}
-          addNewTask={this.props.addNewTask}
-          renameColumn={this.props.renameColumn}
-          columnProhibitedNames={this.props.columnProhibitedNames}
-        />
+      <Grid item={true} key={column.id} xs={12}>
+        <div className={css(customStyles.column)}>
+          <Column
+            id={column.id}
+            boardId={column.boardId}
+            name={column.name}
+            order={column.order}
+            tasks={column.tasks}
+            addNewTask={this.props.addNewTask}
+            renameColumn={this.props.renameColumn}
+            columnProhibitedNames={this.props.columnProhibitedNames}
+            selectTask={this.props.selectTask}
+          />
+        </div>
       </Grid>
     ));
     return (
@@ -51,12 +63,14 @@ class Board extends React.Component<BoardProps> {
         >
           {columnList}
 
-          <Grid item={true} xs={1} sm={2}>
-            <NewBoardItemDialog
-              type={'column'}
-              saveNewName={this.addNewColumnHandler}
-              prohibitedNames={this.props.columnProhibitedNames}
-            />
+          <Grid item={true} xs={4} sm={4}>
+            <div className={css(customStyles.newDialog)}>
+              <NewBoardItemDialog
+                type={'column'}
+                saveNewName={this.addNewColumnHandler}
+                prohibitedNames={this.props.columnProhibitedNames}
+              />
+            </div>
           </Grid>
         </Grid>
       </div>

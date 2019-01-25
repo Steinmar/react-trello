@@ -1,6 +1,7 @@
 import { action } from 'src/core/ReduxUtils';
 import { BoardDetailsStateActionTypes } from './board-details.types';
-import { ColumnModel } from 'src/board/models/BoardDetails.model';
+import { ColumnModel } from 'src/board/models/Column.model';
+import { TaskBaseModel, TaskModel } from 'src/task-card/models/Task.model';
 
 export const boardDetailsFetchRequest = id =>
   action(BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST, id);
@@ -22,3 +23,10 @@ export const UpdateColumnFetchRequestSuccess = (payload: ColumnModel) =>
   action(BoardDetailsStateActionTypes.UPDATE_COLUMN_SUCCESS, payload);
 export const UpdateColumnFetchRequestError = payload =>
   action(BoardDetailsStateActionTypes.UPDATE_COLUMN_ERROR, payload);
+
+export const AddTaskToColumnFetchRequest = (payload: TaskBaseModel) =>
+  action(BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_REQUEST, payload);
+export const AddTaskToColumnFetchRequestSuccess = (payload: TaskModel) =>
+  action(BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_SUCCESS, payload);
+export const AddTaskToColumnFetchRequestError = payload =>
+  action(BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_ERROR, payload);

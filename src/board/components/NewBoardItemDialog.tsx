@@ -36,6 +36,7 @@ class NewBoardItemDialog extends React.Component<
     this.cancelAddingHandler = this.cancelAddingHandler.bind(this);
     this.addingNewItemHandler = this.addingNewItemHandler.bind(this);
     this.saveNewNameHandler = this.saveNewNameHandler.bind(this);
+    this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
 
     this.emitChangedName = this.props.newNameChanged
       ? (name: string) => (this.props as any).newNameChanged(name)
@@ -53,6 +54,7 @@ class NewBoardItemDialog extends React.Component<
                 label="Name"
                 value={this.state.name}
                 onChange={this.changeNameHandler}
+                onKeyDown={this.onKeyDownHandler}
               />
             </div>
             <div className={css(styles.editButtonsContainer)}>
@@ -97,8 +99,10 @@ class NewBoardItemDialog extends React.Component<
   }
 
   private saveNewNameHandler() {
-    this.props.saveNewName(this.state.name);
-    this.resetState();
+    if (!this.isSaveButtonDisabled()) {
+      this.props.saveNewName(this.state.name);
+      this.resetState();
+    }
   }
 
   private addingNewItemHandler() {
@@ -119,6 +123,12 @@ class NewBoardItemDialog extends React.Component<
       showInput: false,
       name: ''
     });
+  }
+
+  private onKeyDownHandler(event) {
+    if (event.key === 'Enter') {
+      this.saveNewNameHandler();
+    }
   }
 }
 

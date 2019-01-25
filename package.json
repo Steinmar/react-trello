@@ -22,17 +22,18 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.11",
+    "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
     "@types/react-router-dom": "^4.3.1",
+    "jest": "^23.6.0",
     "redux-devtools-extension": "^2.13.7",
     "ts-jest": "^23.10.5",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.4"
   }
 }

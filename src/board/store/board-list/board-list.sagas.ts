@@ -2,6 +2,7 @@ import { all, call, fork, put, take } from 'redux-saga/effects';
 import * as fromActions from './board-list.actions';
 import * as fromTypes from './board-list.types';
 import api from 'src/core/api';
+import requestErrorHandler from 'src/core/requestErrorHandler';
 
 function* handleBoardListFetch() {
   try {
@@ -13,13 +14,7 @@ function* handleBoardListFetch() {
       yield put(fromActions.boardListFetchRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.boardListFetchRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.boardListFetchRequestError('An unknown error occured.')
-      );
-    }
+    yield requestErrorHandler(err, fromActions.boardListFetchRequestError);
   }
 }
 
@@ -33,15 +28,7 @@ function* handleBoardListCreateItemFetch(payload) {
       yield put(fromActions.boardListCreateItemRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.boardListCreateItemRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.boardListCreateItemRequestError({
-          message: 'An unknown error occured.'
-        })
-      );
-    }
+    yield requestErrorHandler(err, fromActions.boardListCreateItemRequestError);
   }
 }
 
@@ -55,15 +42,7 @@ function* handleBoardListUpdateItemFetch(payload) {
       yield put(fromActions.boardListUpdateItemRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.boardListUpdateItemRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.boardListUpdateItemRequestError({
-          message: 'An unknown error occured.'
-        })
-      );
-    }
+    yield requestErrorHandler(err, fromActions.boardListUpdateItemRequestError);
   }
 }
 
@@ -77,15 +56,7 @@ function* handleBoardListDeleteItemFetch(id) {
       yield put(fromActions.boardListDeleteItemRequestSuccess(res));
     }
   } catch (err) {
-    if (err instanceof Error) {
-      yield put(fromActions.boardListDeleteItemRequestError(err.stack!));
-    } else {
-      yield put(
-        fromActions.boardListDeleteItemRequestError({
-          message: 'An unknown error occured.'
-        })
-      );
-    }
+    yield requestErrorHandler(err, fromActions.boardListDeleteItemRequestError);
   }
 }
 

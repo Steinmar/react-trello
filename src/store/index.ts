@@ -20,12 +20,19 @@ import {
   boardsSaga
 } from 'src/board/store';
 
+import {
+  SelectedTaskState,
+  SelectedTaskReducer,
+  taskSaga
+} from 'src/task-card/store';
+
 export interface ApplicationState {
   router: Reducer<Reducer<RouterState, LocationChangeAction>, AnyAction>;
   login: LoginState;
   signUp: SignUpState;
   boards: BoardListState;
   board: BoardDetailsState;
+  selectedTask: SelectedTaskState;
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
@@ -38,10 +45,11 @@ export function createRootReducer(history) {
     login: loginReducer,
     signUp: SignUpReducer,
     boards: BoardListReducer,
-    board: BoardDetailsReducer
+    board: BoardDetailsReducer,
+    selectedTask: SelectedTaskReducer
   } as any);
 }
 
 export function* rootSaga() {
-  yield all([fork(authSaga), fork(boardsSaga)]);
+  yield all([fork(authSaga), fork(boardsSaga), fork(taskSaga)]);
 }
