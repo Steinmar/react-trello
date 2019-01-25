@@ -13,7 +13,7 @@ export interface TaskDetailPopupProps extends TaskFetchData {
   taskId: string;
   boardId: string;
   columnId: string;
-  closeAndSubmit: () => void;
+  closeAndSubmit: (dataWasChanged: boolean) => void;
   loadData?: (payload: TaskFetchData) => void;
   updateTask?: (payload: TaskModel) => void;
   clearSelectedTask?: () => void;
