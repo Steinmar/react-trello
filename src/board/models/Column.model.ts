@@ -10,8 +10,9 @@ export interface ColumnModel {
 
 export interface ColumnProps extends ColumnModel {
   columnProhibitedNames: string[];
-  addNewTask: (data: NewTask) => void;
   renameColumn: (data: ColumnModel) => void;
+  deleteColumn: (data: ColumnModel) => void;
+  addNewTask: (data: NewTask) => void;
   selectTask: (data) => void;
 }
 
