@@ -17,8 +17,8 @@ export const loginFetchRequestError = data =>
 export const loginShowSignUpMessage = () =>
   action(LoginStateActionTypes.SHOW_SIGN_UP_SUCCESS_MESSAGE);
 
-export const logoutFetchRequest = () =>
-  action(LoginStateActionTypes.FETCH_LOGOUT_REQUEST);
+export const logoutFetchRequest = (wasSessionExpired = false) =>
+  action(LoginStateActionTypes.FETCH_LOGOUT_REQUEST, wasSessionExpired);
 export const logoutFetchRequestSuccess = () =>
   action(LoginStateActionTypes.FETCH_LOGOUT_SUCCESS);
 export const logoutFetchRequestError = data =>

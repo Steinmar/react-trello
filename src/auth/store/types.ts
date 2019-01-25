@@ -8,6 +8,7 @@ export interface Login {
   name: string;
   email: string;
   showSignUpSuccessMessage: boolean;
+  sessionExpired?: boolean;
   token?: string;
 }
 

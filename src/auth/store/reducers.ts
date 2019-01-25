@@ -29,7 +29,8 @@ const initialUserInfo = localAuthData
 const loginInitialState: LoginState = {
   data: {
     ...initialUserInfo,
-    showSignUpSuccessMessage: false
+    showSignUpSuccessMessage: false,
+    sessionExpired: false
   },
   error: null,
   loading: false
@@ -81,12 +82,22 @@ const loginReducer: Reducer<LoginState> = (
   action
 ) => {
   switch (action.type) {
+    case LoginStateActionTypes.FETCH_LOGOUT_REQUEST: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          sessionExpired: action.payload
+        }
+      };
+    }
     case LoginStateActionTypes.FETCH_LOGOUT_SUCCESS: {
       return {
         ...loginInitialState,
         data: {
           ...loginInitialState.data,
-          ...noUserInfoData
+          ...noUserInfoData,
+          sessionExpired: state.data.sessionExpired
         }
       };
     }

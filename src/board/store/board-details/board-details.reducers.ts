@@ -3,8 +3,11 @@ import {
   BoardDetailsStateActionTypes,
   BoardDetailsState
 } from './board-details.types';
-import { ColumnModel } from 'src/board/models/BoardDetails.model';
+import { ColumnModel } from 'src/board/models/Column.model';
 import * as _ from 'lodash';
+import { TaskBaseModel } from 'src/task-card/models';
+
+type OrderSortable = ColumnModel | TaskBaseModel;
 
 const boardListInitialState: BoardDetailsState = {
   data: null as any,
@@ -34,9 +37,13 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
       };
     }
     case BoardDetailsStateActionTypes.FETCH_DETAILS_SUCCESS: {
-      const sortedColumns = action.payload.columns.sort(
-        (a: ColumnModel, b: ColumnModel) => a.order < b.order
-      );
+      const columns = action.payload.columns.map(item => {
+        return {
+          ..._.omit(item, 'tasks'),
+          tasks: item.tasks.sort(sortItemsByOrder)
+        };
+      });
+      const sortedColumns = columns.sort(sortItemsByOrder);
       return {
         ...state,
         loading: false,
@@ -51,7 +58,8 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
       return { ...state, loading: false, error: action.payload };
     }
 
-    case BoardDetailsStateActionTypes.UPDATE_COLUMN_SUCCESS: {
+    case BoardDetailsStateActionTypes.UPDATE_COLUMN_SUCCESS:
+    case BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_SUCCESS: {
       const updatedItem = action.payload;
       const updatedItemIndex = state.data.columns.findIndex(
         element => element.id === updatedItem.id
@@ -76,3 +84,7 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
 };
 
 export { BoardDetailsReducer };
+
+function sortItemsByOrder(a: OrderSortable, b: OrderSortable) {
+  return a.order < b.order;
+}

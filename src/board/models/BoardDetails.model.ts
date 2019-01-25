@@ -1,29 +1,8 @@
 import { Error } from '../../core/models/Error';
+import { NewTask } from '../../task-card/models/Task.model';
+import { ColumnModel, NewColumnData } from './Column.model';
 import { RouteComponentProps } from 'react-router';
-
-export interface TaskBaseModel {
-  boardId: string;
-  name: string;
-  order: number;
-}
-
-export interface TaskModel extends TaskBaseModel {
-  boardId: string;
-  columnId: string;
-  id: string;
-  order: number;
-  name: string;
-  description: string;
-  status: string;
-}
-
-export interface ColumnModel {
-  id: string;
-  boardId: string;
-  name: string;
-  order: number;
-  tasks: TaskBaseModel[];
-}
+import { TaskFetchData } from 'src/task-card/models';
 
 export interface BoardDetailsModel {
   name: string;
@@ -41,27 +20,22 @@ export interface BoardDetailsProps
   error: Error | null;
   loadData: (id: string) => void;
   addColumn: (data: NewColumnData) => void;
-  addTask: () => void;
+  addTask: (task: NewTask) => void;
   deleteColumn: (event) => void;
   renameColumn: (event) => void;
   updateColumn: (event) => void;
 }
 
-export interface NewColumnData {
-  name: string;
-  boardId: string;
+export interface BoardDetailsState {
+  shownTaskData: SelectedTaskData | null;
 }
 
 export interface BoardProps extends BoardDetailsModel {
   columnProhibitedNames: string[];
   addNewColumn: (data: NewColumnData) => void;
-  addNewTask: () => void;
+  addNewTask: (data: NewTask) => void;
   renameColumn: (data: ColumnModel) => void;
-}
-export interface ColumnProps extends ColumnModel {
-  columnProhibitedNames: string[];
-  addNewTask: () => void;
-  renameColumn: (data: ColumnModel) => void;
+  selectTask: (data) => void;
 }
 
-export type ShortTaskProps = TaskBaseModel;
+export type SelectedTaskData = TaskFetchData;

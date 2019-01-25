@@ -23,7 +23,7 @@ class BoardList extends React.Component<BoardListProps> {
     const boardList = this.props.list
       ? this.props.list.map((item, index) => (
           <ListItem key={item.id}>
-            <Grid item={true} xs={3}>
+            <Grid item={true} xs={6}>
               <EditableTitle
                 editTitle={this.props.updateBoard}
                 title={item.name}
