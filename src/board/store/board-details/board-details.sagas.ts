@@ -64,6 +64,24 @@ function* handleUpdateColumnsFetch(params: ColumnModel) {
   }
 }
 
+function* handleDeleteColumnsFetch(params: ColumnModel) {
+  try {
+    const res = yield call(
+      api,
+      'delete',
+      `board/${params.boardId}/column/${params.id}`
+    );
+
+    if (res.error) {
+      yield put(fromActions.DeleteColumnFetchRequestError(res.error));
+    } else {
+      yield put(fromActions.DeleteColumnFetchRequestSuccess(res));
+    }
+  } catch (err) {
+    yield requestErrorHandler(err, fromActions.DeleteColumnFetchRequestError);
+  }
+}
+
 function* handleAddTaskFetch(params: TaskBaseModel) {
   try {
     const res = yield call(
@@ -110,6 +128,16 @@ function* watchAddColumnsFetchRequest() {
   }
 }
 
+function* watchDeleteColumnsFetchRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.BoardDetailsStateActionTypes.DELETE_COLUMN_REQUEST
+    );
+
+    yield call(handleDeleteColumnsFetch, payload);
+  }
+}
+
 function* watchUpdateColumnsFetchRequest() {
   while (true) {
     const { payload } = yield take(
@@ -142,6 +170,7 @@ function* boardDetailsSaga() {
     fork(watchBoardFetchRequest),
     fork(watchAddColumnsFetchRequest),
     fork(watchUpdateColumnsFetchRequest),
+    fork(watchDeleteColumnsFetchRequest),
     fork(watchAddTaskFetchRequest)
   ]);
 }

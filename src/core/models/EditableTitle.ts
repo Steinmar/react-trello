@@ -6,6 +6,7 @@ export interface EditableTitleProps extends CustomInput {
   rowsMax?: number;
   children?: React.ReactNode;
   emptyIsAllowed?: boolean;
+  disabled?: boolean;
   id: string;
   title: string;
   editTitle: (event) => void;

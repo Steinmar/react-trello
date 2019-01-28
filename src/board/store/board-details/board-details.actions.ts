@@ -24,6 +24,13 @@ export const UpdateColumnFetchRequestSuccess = (payload: ColumnModel) =>
 export const UpdateColumnFetchRequestError = payload =>
   action(BoardDetailsStateActionTypes.UPDATE_COLUMN_ERROR, payload);
 
+export const DeleteColumnFetchRequest = (payload: ColumnModel) =>
+  action(BoardDetailsStateActionTypes.DELETE_COLUMN_REQUEST, payload);
+export const DeleteColumnFetchRequestSuccess = (payload: ColumnModel) =>
+  action(BoardDetailsStateActionTypes.DELETE_COLUMN_SUCCESS, payload);
+export const DeleteColumnFetchRequestError = payload =>
+  action(BoardDetailsStateActionTypes.DELETE_COLUMN_ERROR, payload);
+
 export const AddTaskToColumnFetchRequest = (payload: TaskBaseModel) =>
   action(BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_REQUEST, payload);
 export const AddTaskToColumnFetchRequestSuccess = (payload: TaskModel) =>

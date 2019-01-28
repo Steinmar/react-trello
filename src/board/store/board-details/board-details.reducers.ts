@@ -22,7 +22,8 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
   switch (action.type) {
     case BoardDetailsStateActionTypes.FETCH_DETAILS_REQUEST:
     case BoardDetailsStateActionTypes.ADD_COLUMN_REQUEST:
-    case BoardDetailsStateActionTypes.UPDATE_COLUMN_REQUEST: {
+    case BoardDetailsStateActionTypes.UPDATE_COLUMN_REQUEST:
+    case BoardDetailsStateActionTypes.DELETE_COLUMN_REQUEST: {
       return { ...state, loading: true, error: null };
     }
     case BoardDetailsStateActionTypes.ADD_COLUMN_SUCCESS: {
@@ -54,7 +55,8 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
       };
     }
     case BoardDetailsStateActionTypes.FETCH_DETAILS_ERROR:
-    case BoardDetailsStateActionTypes.UPDATE_COLUMN_ERROR: {
+    case BoardDetailsStateActionTypes.UPDATE_COLUMN_ERROR:
+    case BoardDetailsStateActionTypes.DELETE_COLUMN_ERROR: {
       return { ...state, loading: false, error: action.payload };
     }
 
@@ -72,11 +74,23 @@ const BoardDetailsReducer: Reducer<BoardDetailsState> = (
           ...state.data,
           columns: updatedColumns
         },
+        loading: false,
+        error: null
+      };
+    }
+    case BoardDetailsStateActionTypes.DELETE_COLUMN_SUCCESS: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          columns: state.data.columns.filter(
+            column => column.id !== action.payload.columnId
+          )
+        },
         loading: true,
         error: null
       };
     }
-
     default: {
       return state;
     }

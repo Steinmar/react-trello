@@ -26,7 +26,7 @@ const customStyles = StyleSheet.create({
 });
 
 class Board extends React.Component<BoardProps> {
-  constructor(props: any) {
+  constructor(props: BoardProps) {
     super(props);
 
     this.addNewColumnHandler = this.addNewColumnHandler.bind(this);
@@ -44,6 +44,7 @@ class Board extends React.Component<BoardProps> {
             tasks={column.tasks}
             addNewTask={this.props.addNewTask}
             renameColumn={this.props.renameColumn}
+            deleteColumn={this.props.deleteColumn}
             columnProhibitedNames={this.props.columnProhibitedNames}
             selectTask={this.props.selectTask}
           />

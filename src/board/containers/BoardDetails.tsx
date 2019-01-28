@@ -9,6 +9,7 @@ import { ColumnModel } from '../models/Column.model';
 import { NewTask } from '../../task-card/models/Task.model';
 import Board from '../components/Board';
 import TaskDetailsPopup from '../../task-card/containers/TaskDetailsPopup';
+import DeleteColumnPopup from '../components/DeleteColumnPopup';
 
 const mapDispatchToProps = dispatch => ({
   loadData: (id: string) =>
@@ -26,6 +27,11 @@ const mapDispatchToProps = dispatch => ({
       type: types.BoardDetailsStateActionTypes.UPDATE_COLUMN_REQUEST,
       payload: column
     }),
+  deleteColumn: (column: ColumnModel) =>
+    dispatch({
+      type: types.BoardDetailsStateActionTypes.DELETE_COLUMN_REQUEST,
+      payload: column
+    }),
   addTask: (task: NewTask) =>
     dispatch({
       type: types.BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_REQUEST,
@@ -37,18 +43,23 @@ class BoardDetails extends React.Component<
   BoardDetailsProps,
   BoardDetailsState
 > {
-  constructor(props: any) {
+  constructor(props: BoardDetailsProps) {
     super(props);
 
     this.state = {
-      shownTaskData: null
+      shownTaskDataPopup: null,
+      shownDeleteColumnPopup: false
     };
 
     this.addNewColumnHandler = this.addNewColumnHandler.bind(this);
     this.addNewTaskHandler = this.addNewTaskHandler.bind(this);
     this.renameColumnHandler = this.renameColumnHandler.bind(this);
+    this.deleteColumnHandler = this.deleteColumnHandler.bind(this);
     this.openTaskDetailsPopup = this.openTaskDetailsPopup.bind(this);
     this.closeTaskDetailsPopup = this.closeTaskDetailsPopup.bind(this);
+    this.deleteColumnPopupActionHandler = this.deleteColumnPopupActionHandler.bind(
+      this
+    );
   }
 
   public componentWillMount() {
@@ -70,19 +81,23 @@ class BoardDetails extends React.Component<
             addNewColumn={this.addNewColumnHandler}
             addNewTask={this.addNewTaskHandler}
             renameColumn={this.renameColumnHandler}
+            deleteColumn={this.deleteColumnHandler}
             columnProhibitedNames={columnProhibitedNames}
             selectTask={this.openTaskDetailsPopup}
           />
         )}
-        {this.state.shownTaskData && (
+        {this.state.shownTaskDataPopup && (
           // ToDo made a popup dumb component
           // and move all redux stuff to board details component
           <TaskDetailsPopup
-            taskId={this.state.shownTaskData.taskId}
-            columnId={this.state.shownTaskData.columnId}
-            boardId={this.state.shownTaskData.boardId}
+            taskId={this.state.shownTaskDataPopup.taskId}
+            columnId={this.state.shownTaskDataPopup.columnId}
+            boardId={this.state.shownTaskDataPopup.boardId}
             closeAndSubmit={this.closeTaskDetailsPopup}
           />
+        )}
+        {this.state.shownDeleteColumnPopup && (
+          <DeleteColumnPopup close={this.deleteColumnPopupActionHandler} />
         )}
       </div>
     );
@@ -100,8 +115,12 @@ class BoardDetails extends React.Component<
     this.props.updateColumn(data);
   }
 
+  private deleteColumnHandler(data: ColumnModel) {
+    this.setState({ columnDataToDelete: data, shownDeleteColumnPopup: true });
+  }
+
   private openTaskDetailsPopup(data) {
-    this.setState({ shownTaskData: data });
+    this.setState({ shownTaskDataPopup: data });
   }
 
   private closeTaskDetailsPopup(dataWasChanged: boolean) {
@@ -111,8 +130,14 @@ class BoardDetails extends React.Component<
     if (dataWasChanged) {
       this.props.loadData(this.props.match.params.boardId);
     }
+    this.setState({ shownTaskDataPopup: null });
+  }
 
-    this.setState({ shownTaskData: null });
+  private deleteColumnPopupActionHandler(wasApproved: boolean) {
+    if (wasApproved) {
+      this.props.deleteColumn(this.state.columnDataToDelete);
+    }
+    this.setState({ shownDeleteColumnPopup: false });
   }
 }
 

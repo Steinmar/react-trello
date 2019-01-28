@@ -107,7 +107,8 @@ class Popup extends React.Component<PopupProps> {
     const popupButtons =
       cancelButton || submitButton ? (
         <Grid item={true} xs={12} className={css(styles.justifyFlexEnd)}>
-          {cancelButton && submitButton}
+          {cancelButton}
+          {submitButton}
         </Grid>
       ) : null;
 
