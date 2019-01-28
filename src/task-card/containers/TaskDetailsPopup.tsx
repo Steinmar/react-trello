@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { SelectedTaskStateActionTypes } from '../store';
 import { TaskModel } from '../models';
 import * as _ from 'lodash';
+import Spinner from 'src/shared/components/Spinner';
 
 const mapDispatchToProps = dispatch => ({
   loadData: (payload: TaskModel) =>
@@ -23,6 +24,11 @@ const mapDispatchToProps = dispatch => ({
   updateTask: payload =>
     dispatch({
       type: SelectedTaskStateActionTypes.UPDATE_TASK_REQUEST,
+      payload
+    }),
+  deleteTask: payload =>
+    dispatch({
+      type: SelectedTaskStateActionTypes.DELETE_TASK_REQUEST,
       payload
     })
 });
@@ -40,6 +46,13 @@ class TaskDetailsPopup extends React.Component<
 
     this.taskDataChangeHandler = this.taskDataChangeHandler.bind(this);
     this.closeHandler = this.closeHandler.bind(this);
+    this.deleteTaskHandler = this.deleteTaskHandler.bind(this);
+  }
+
+  public componentWillReceiveProps(props: TaskDetailPopupProps) {
+    if (!!props.removedTask || (this.state.changes && !props.loading)) {
+      this.props.closeAndSubmit(true);
+    }
   }
 
   public componentWillMount() {
@@ -66,18 +79,26 @@ class TaskDetailsPopup extends React.Component<
       availableStatuses
     } = this.getTaskDetailBodyProps();
 
+    const spinner = this.props.loading ? (
+      <Spinner hasOverlay={true} startDelay={300} />
+    ) : null;
+
     return (
-      <Popup closeHandler={this.closeHandler}>
-        {this.props.data && (
-          <TaskDetailsBody
-            name={name}
-            description={description}
-            status={status}
-            availableStatuses={availableStatuses}
-            dataChanged={this.taskDataChangeHandler}
-          />
-        )}
-      </Popup>
+      <div>
+        {spinner}
+        <Popup closeHandler={this.closeHandler}>
+          {this.props.data && (
+            <TaskDetailsBody
+              name={name}
+              description={description}
+              status={status}
+              availableStatuses={availableStatuses}
+              dataChanged={this.taskDataChangeHandler}
+              deleteTask={this.deleteTaskHandler}
+            />
+          )}
+        </Popup>
+      </div>
     );
   }
 
@@ -100,18 +121,24 @@ class TaskDetailsPopup extends React.Component<
     return { name, description, status, availableStatuses };
   }
 
-  private saveChanges(): boolean {
-    if (this.props.data && this.state.changes && this.props.updateTask) {
+  private closeHandler() {
+    if (!this.state.changes) {
+      this.props.closeAndSubmit(false);
+    } else if (this.props.data && this.state.changes && this.props.updateTask) {
       this.props.updateTask(
         _.merge({}, this.props.data.task, this.state.changes)
       );
-      return true;
     }
-    return false;
   }
 
-  private closeHandler() {
-    this.props.closeAndSubmit(this.saveChanges());
+  private deleteTaskHandler() {
+    if (this.props.deleteTask) {
+      this.props.deleteTask({
+        id: this.props.taskId,
+        columnId: this.props.columnId,
+        boardId: this.props.boardId
+      });
+    }
   }
 }
 

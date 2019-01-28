@@ -3,3 +3,4 @@ export * from './TaskDetailsPopup.model';
 export * from './TaskDetailsBody.model';
 export * from './TaskDetailsBody.model';
 export * from './SelectedTaskData.model';
+export * from './DeleteTaskDialog.model';
