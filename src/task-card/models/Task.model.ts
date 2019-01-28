@@ -1,18 +1,17 @@
 import { SelectedTaskData } from 'src/board/models/BoardDetails.model';
 
-export interface TaskBaseModel {
+export interface TaskPathModel {
   id: string;
   boardId: string;
   columnId: string;
+}
+
+export interface TaskBaseModel extends TaskPathModel {
   name: string;
   order: number;
 }
 
 export interface TaskModel extends TaskBaseModel {
-  columnId: string;
-  id: string;
-  order: number;
-  name: string;
   description: string;
   status: string;
 }

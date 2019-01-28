@@ -1,6 +1,6 @@
 import { SelectedTaskData } from './SelectedTaskData.model';
 import { TaskDetailsBodyData } from './TaskDetailsBody.model';
-import { TaskModel } from './Task.model';
+import { TaskModel, TaskPathModel } from './Task.model';
 
 export interface TaskFetchData {
   taskId: string;
@@ -8,7 +8,12 @@ export interface TaskFetchData {
   columnId: string;
 }
 
+// ToDo refactor this and state model
+// this stuff should extends state model to avoid copy
+// paste with optional props
 export interface TaskDetailPopupProps extends TaskFetchData {
+  loading?: boolean;
+  removedTask?: TaskPathModel | null;
   data?: SelectedTaskData;
   taskId: string;
   boardId: string;
@@ -16,6 +21,7 @@ export interface TaskDetailPopupProps extends TaskFetchData {
   closeAndSubmit: (dataWasChanged: boolean) => void;
   loadData?: (payload: TaskFetchData) => void;
   updateTask?: (payload: TaskModel) => void;
+  deleteTask?: (payload: TaskPathModel) => void;
   clearSelectedTask?: () => void;
 }
 

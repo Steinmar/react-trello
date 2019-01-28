@@ -3,7 +3,11 @@ import * as fromActions from './selected-task.actions';
 import * as fromTypes from './selected-task.types';
 import api from 'src/core/api';
 import requestErrorHandler from 'src/core/requestErrorHandler';
-import { TaskBaseModel, TaskModel } from '../../models/Task.model';
+import {
+  TaskBaseModel,
+  TaskModel,
+  TaskPathModel
+} from '../../models/Task.model';
 import * as _ from 'lodash';
 
 function* handleGetTaskFetch(params: TaskBaseModel) {
@@ -43,6 +47,24 @@ function* handleUpdateTaskFetch(params: TaskModel) {
   }
 }
 
+function* handleDeleteTaskFetch(params: TaskPathModel) {
+  try {
+    const res = yield call(
+      api,
+      'delete',
+      `board/${params.boardId}/column/${params.columnId}/task/${params.id}`
+    );
+
+    if (res.error) {
+      yield put(fromActions.DeleteTaskFetchRequestError(res.error));
+    } else {
+      yield put(fromActions.DeleteTaskFetchRequestSuccess(res));
+    }
+  } catch (err) {
+    yield requestErrorHandler(err, fromActions.DeleteTaskFetchRequestError);
+  }
+}
+
 function* watchGetTaskFetchRequest() {
   while (true) {
     const { payload } = yield take(
@@ -66,10 +88,21 @@ function* watchUpdateTaskFetchRequest() {
   }
 }
 
+function* watchDeleteTaskFetchRequest() {
+  while (true) {
+    const { payload } = yield take(
+      fromTypes.SelectedTaskStateActionTypes.DELETE_TASK_REQUEST
+    );
+
+    yield call(handleDeleteTaskFetch, payload);
+  }
+}
+
 function* selectedTaskSaga() {
   yield all([
     fork(watchGetTaskFetchRequest),
-    fork(watchUpdateTaskFetchRequest)
+    fork(watchUpdateTaskFetchRequest),
+    fork(watchDeleteTaskFetchRequest)
   ]);
 }
 

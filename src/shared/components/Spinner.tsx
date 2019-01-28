@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Icon } from '@material-ui/core';
 import { StyleSheet, css } from 'aphrodite';
+import { SpinnerProps, SpinnerState, TimerID } from 'src/core/models';
 
 // TODO run it once and store cache in the store
 function madeTranslateKeyframes() {
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
     top: '0',
     left: '0',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    zIndex: 1000000
   },
   spinnerWrapper: {
     position: 'relative',
@@ -46,17 +48,49 @@ const styles = StyleSheet.create({
     animationName: [translateKeyframes],
     animationDuration: '3s, 1200ms',
     animationIterationCount: 'infinite'
+  },
+  overlay: {
+    'background-color': 'rgba(0, 0, 0, 0.5)'
   }
 });
 
-function Spinner() {
-  return (
-    <div className={css(styles.spinnerContainer)}>
-      <div className={css(styles.spinnerWrapper)}>
-        <Icon className={css(styles.spinner)}>update</Icon>
+export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
+  constructor(props: SpinnerProps) {
+    let timerID: TimerID = null;
+
+    super(props);
+
+    if (this.props.startDelay) {
+      timerID = setTimeout(() => {
+        this.setState({ delayTimerStartID: null });
+      }, this.props.startDelay);
+    }
+
+    this.state = {
+      delayTimerStartID: timerID
+    };
+  }
+
+  public componentWillUnmount() {
+    if (this.state.delayTimerStartID) {
+      clearTimeout(this.state.delayTimerStartID);
+    }
+  }
+
+  public render() {
+    return this.state.delayTimerStartID ? null : (
+      <div className={css(styles.spinnerContainer)}>
+        <div
+          className={css(
+            styles.spinnerWrapper,
+            this.props.hasOverlay && styles.overlay
+          )}
+        >
+          <Icon className={css(styles.spinner)}>update</Icon>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Spinner;

@@ -29,6 +29,8 @@ class EditableTitle extends React.Component<
   EditableTitleProps,
   EditableTitleState
 > {
+  private inputRef: React.RefObject<any>;
+
   constructor(props: EditableTitleProps) {
     super(props);
 
@@ -37,6 +39,7 @@ class EditableTitle extends React.Component<
       oldTitle: props.title,
       saveIsDisabled: false
     };
+    this.inputRef = React.createRef();
 
     this.editTitle = this.editTitle.bind(this);
     this.onUndoEditTitle = this.onUndoEditTitle.bind(this);
@@ -52,6 +55,8 @@ class EditableTitle extends React.Component<
             <Grid container={true} alignItems="center">
               <Grid item={true} xs={8} className={css(styles.input)}>
                 <TextField
+                  inputRef={this.inputRef}
+                  disabled={this.props.disabled}
                   placeholder={this.props.placeholder || 'Title'}
                   multiline={!!this.props.rowsMax}
                   rows={this.props.rowsMax || 1}
@@ -68,13 +73,14 @@ class EditableTitle extends React.Component<
                   aria-label="Undo"
                   onClick={this.onUndoEditTitle}
                   className={css(styles.controlButtonItem)}
+                  disabled={this.props.disabled}
                 >
                   <Icon>undo</Icon>
                 </IconButton>
                 <IconButton
                   aria-label="Save"
                   onClick={this.editTitle}
-                  disabled={this.state.saveIsDisabled}
+                  disabled={this.state.saveIsDisabled || this.props.disabled}
                   className={css(styles.controlButtonItem)}
                 >
                   <Icon>save</Icon>
@@ -88,6 +94,7 @@ class EditableTitle extends React.Component<
               </Grid>
               <Grid item={true} xs={2} className={css(styles.controlButtons)}>
                 <IconButton
+                  disabled={this.props.disabled}
                   aria-label="Rename"
                   onClick={this.editTitle}
                   className={css(styles.controlButtonItem)}
@@ -114,19 +121,28 @@ class EditableTitle extends React.Component<
     if (this.state.saveIsDisabled) {
       return;
     }
+
     this.setState(state => {
       const hasNewTitle = !!state.newTitle;
+      const newTitle = !hasNewTitle ? this.props.title : null;
+
       if (hasNewTitle) {
         this.props.editTitle({
           id: this.props.id,
           name: state.newTitle
         });
       }
-      const newTitle = !hasNewTitle ? this.props.title : null;
+
       return {
         newTitle,
         saveIsDisabled: this.isSavingDisabled(newTitle)
       };
+    });
+
+    setTimeout(() => {
+      if (this.inputRef.current) {
+        this.inputRef.current.focus();
+      }
     });
   }
 
