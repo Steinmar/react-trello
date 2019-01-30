@@ -3,6 +3,7 @@ import { NewTask } from '../../task-card/models/Task.model';
 import { ColumnModel, NewColumnData } from './Column.model';
 import { RouteComponentProps } from 'react-router';
 import { TaskFetchData } from 'src/task-card/models';
+import { ChangedTaskColumnInfo } from './ShortTaskDraggable.model';
 
 export interface BoardDetailsModel {
   name: string;
@@ -39,6 +40,7 @@ export interface BoardProps extends BoardDetailsModel {
   renameColumn: (data: ColumnModel) => void;
   deleteColumn: (data: ColumnModel) => void;
   selectTask: (data) => void;
+  changeTaskColumn: (data: ChangedTaskColumnInfo) => void;
 }
 
 export type SelectedTaskData = TaskFetchData;

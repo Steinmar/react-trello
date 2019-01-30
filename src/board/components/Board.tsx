@@ -5,6 +5,7 @@ import pageStyles from 'src/styles/page';
 import { css, StyleSheet } from 'aphrodite';
 import { BoardProps } from '../models/BoardDetails.model';
 import NewBoardItemDialog from './NewBoardItemDialog';
+import ColumnDropTarget from '../components/ColumnDropTarget';
 
 const styles = pageStyles;
 const customStyles = StyleSheet.create({
@@ -14,8 +15,6 @@ const customStyles = StyleSheet.create({
   infiniteInternalWidth: {
     'overflow-x': 'auto',
     'min-height': '90vh'
-    // this will affect all pager styles!
-    // height: 'calc(100% - 84px)'
   },
   newDialog: {
     width: '167px'
@@ -36,18 +35,21 @@ class Board extends React.Component<BoardProps> {
     const columnList = this.props.columns.map(column => (
       <Grid item={true} key={column.id} xs={12}>
         <div className={css(customStyles.column)}>
-          <Column
-            id={column.id}
-            boardId={column.boardId}
-            name={column.name}
-            order={column.order}
-            tasks={column.tasks}
-            addNewTask={this.props.addNewTask}
-            renameColumn={this.props.renameColumn}
-            deleteColumn={this.props.deleteColumn}
-            columnProhibitedNames={this.props.columnProhibitedNames}
-            selectTask={this.props.selectTask}
-          />
+          <ColumnDropTarget boardId={column.boardId} id={column.id}>
+            <Column
+              id={column.id}
+              boardId={column.boardId}
+              name={column.name}
+              order={column.order}
+              tasks={column.tasks}
+              addNewTask={this.props.addNewTask}
+              renameColumn={this.props.renameColumn}
+              deleteColumn={this.props.deleteColumn}
+              columnProhibitedNames={this.props.columnProhibitedNames}
+              selectTask={this.props.selectTask}
+              changeTaskColumn={this.props.changeTaskColumn}
+            />
+          </ColumnDropTarget>
         </div>
       </Grid>
     ));

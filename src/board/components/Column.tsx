@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { ColumnProps } from '../models/Column.model';
 import ShortTask from './ShortTask';
+import ShortTaskDraggable from './ShortTaskDraggable';
 import NewBoardItemDialog from './NewBoardItemDialog';
 import EditableTitle from 'src/shared/components/EditableTitle';
 import { EditableTitleResult } from 'src/core/models/EditableTitle';
@@ -33,15 +34,20 @@ class Column extends React.Component<ColumnProps> {
 
   public render() {
     const taskList = this.props.tasks.map(task => (
-      <ShortTask
+      <ShortTaskDraggable
         key={task.id}
         id={task.id}
-        boardId={this.props.boardId}
-        columnId={this.props.id}
-        name={task.name}
-        order={task.order}
-        selectTask={this.props.selectTask}
-      />
+        changeTaskColumn={this.props.changeTaskColumn}
+      >
+        <ShortTask
+          id={task.id}
+          boardId={this.props.boardId}
+          columnId={this.props.id}
+          name={task.name}
+          order={task.order}
+          selectTask={this.props.selectTask}
+        />
+      </ShortTaskDraggable>
     ));
     return (
       <div>

@@ -57,6 +57,7 @@ class BoardDetails extends React.Component<
     this.deleteColumnHandler = this.deleteColumnHandler.bind(this);
     this.openTaskDetailsPopup = this.openTaskDetailsPopup.bind(this);
     this.closeTaskDetailsPopup = this.closeTaskDetailsPopup.bind(this);
+    this.changeTaskColumnHandler = this.changeTaskColumnHandler.bind(this);
     this.deleteColumnPopupActionHandler = this.deleteColumnPopupActionHandler.bind(
       this
     );
@@ -84,6 +85,7 @@ class BoardDetails extends React.Component<
             deleteColumn={this.deleteColumnHandler}
             columnProhibitedNames={columnProhibitedNames}
             selectTask={this.openTaskDetailsPopup}
+            changeTaskColumn={this.changeTaskColumnHandler}
           />
         )}
         {this.state.shownTaskDataPopup && (
@@ -121,6 +123,10 @@ class BoardDetails extends React.Component<
 
   private openTaskDetailsPopup(data) {
     this.setState({ shownTaskDataPopup: data });
+  }
+
+  private changeTaskColumnHandler(data) {
+    console.log(data);
   }
 
   private closeTaskDetailsPopup(dataWasChanged: boolean) {
