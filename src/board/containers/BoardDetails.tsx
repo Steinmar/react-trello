@@ -6,10 +6,12 @@ import {
   BoardDetailsState
 } from '../models/BoardDetails.model';
 import { ColumnModel } from '../models/Column.model';
-import { NewTask } from '../../task-card/models/Task.model';
+import { NewTask, TaskModel } from '../../task-card/models/Task.model';
 import Board from '../components/Board';
 import TaskDetailsPopup from '../../task-card/containers/TaskDetailsPopup';
 import DeleteColumnPopup from '../components/DeleteColumnPopup';
+import { SelectedTaskStateActionTypes } from 'src/task-card/store';
+import { ChangedTaskColumnInfo } from '../models/ShortTaskDraggable.model';
 
 const mapDispatchToProps = dispatch => ({
   loadData: (id: string) =>
@@ -36,6 +38,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: types.BoardDetailsStateActionTypes.ADD_TASK_TO_COLUMN_REQUEST,
       payload: task
+    }),
+  changeTaskColumn: (data: TaskModel) =>
+    dispatch({
+      type: SelectedTaskStateActionTypes.UPDATE_TASK_REQUEST,
+      payload: data
     })
 });
 
@@ -125,8 +132,24 @@ class BoardDetails extends React.Component<
     this.setState({ shownTaskDataPopup: data });
   }
 
-  private changeTaskColumnHandler(data) {
-    console.log(data);
+  private changeTaskColumnHandler(data: ChangedTaskColumnInfo) {
+    const newColumn = this.props.data.columns.find(
+      column => column.id === data.columnId
+    );
+
+    const oldColumn = this.props.data.columns.find(
+      column => column.id === data.oldColumnId
+    );
+
+    if (oldColumn && newColumn) {
+      const droppedTask = oldColumn.tasks.find(task => task.id === data.taskId);
+
+      this.props.changeTaskColumn({
+        ...droppedTask,
+        status: newColumn.name
+      });
+      this.props.loadData(this.props.match.params.boardId);
+    }
   }
 
   private closeTaskDetailsPopup(dataWasChanged: boolean) {
@@ -147,7 +170,14 @@ class BoardDetails extends React.Component<
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    ...(state as any).board,
+    task: (state as any).selectTask
+  };
+}
+
 export default connect(
-  state => (state as any).board,
+  mapStateToProps,
   mapDispatchToProps
 )(BoardDetails);

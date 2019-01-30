@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 export interface ChangedTaskColumnInfo {
   boardId: string;
   columnId: string;
+  oldColumnId: string;
   taskId: string;
 }
 

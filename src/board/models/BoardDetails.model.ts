@@ -25,6 +25,7 @@ export interface BoardDetailsProps
   deleteColumn: (event) => void;
   renameColumn: (event) => void;
   updateColumn: (event) => void;
+  changeTaskColumn: (event) => void;
 }
 
 export interface BoardDetailsState {

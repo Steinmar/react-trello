@@ -37,6 +37,7 @@ class Column extends React.Component<ColumnProps> {
       <ShortTaskDraggable
         key={task.id}
         id={task.id}
+        columnId={task.columnId}
         changeTaskColumn={this.props.changeTaskColumn}
       >
         <ShortTask

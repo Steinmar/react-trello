@@ -25,6 +25,7 @@ const shortTaskSource = {
       props.changeTaskColumn({
         boardId: dropResult.boardId,
         columnId: dropResult.id,
+        oldColumnId: props.columnId,
         taskId: props.id
       });
     }
