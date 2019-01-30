@@ -1,5 +1,5 @@
-import { TaskBaseModel, NewTask } from '../../task-card/models/Task.model';
-import { ChangedTaskColumnInfo } from './ShortTaskDraggable.model';
+import { TaskBaseModel, NewTask } from '../../../task-card/models/Task.model';
+import { ChangedTaskColumnInfo } from '../ShortTaskDraggable.model';
 
 export interface ColumnModel {
   id: string;

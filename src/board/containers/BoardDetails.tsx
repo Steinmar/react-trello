@@ -4,14 +4,14 @@ import * as types from '../store/types';
 import {
   BoardDetailsProps,
   BoardDetailsState
-} from '../models/BoardDetails.model';
-import { ColumnModel } from '../models/Column.model';
+} from '../models/board/BoardDetails.model';
 import { NewTask, TaskModel } from '../../task-card/models/Task.model';
-import Board from '../components/Board';
+import Board from '../components/board/Board';
 import TaskDetailsPopup from '../../task-card/containers/TaskDetailsPopup';
-import DeleteColumnPopup from '../components/DeleteColumnPopup';
+import DeleteColumnPopup from '../components/column/DeleteColumnPopup';
 import { SelectedTaskStateActionTypes } from 'src/task-card/store';
 import { ChangedTaskColumnInfo } from '../models/ShortTaskDraggable.model';
+import { ColumnModel } from '../models';
 
 const mapDispatchToProps = dispatch => ({
   loadData: (id: string) =>

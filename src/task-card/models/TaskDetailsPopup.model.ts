@@ -1,6 +1,6 @@
-import { SelectedTaskData } from './SelectedTaskData.model';
 import { TaskDetailsBodyData } from './TaskDetailsBody.model';
 import { TaskModel, TaskPathModel } from './Task.model';
+import { SelectedTaskData } from './SelectedTaskData.model';
 
 export interface TaskFetchData {
   taskId: string;

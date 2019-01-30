@@ -1,4 +1,4 @@
-import { SelectedTaskData } from 'src/board/models/BoardDetails.model';
+import { TaskFetchData } from './TaskDetailsPopup.model';
 
 export interface TaskPathModel {
   id: string;
@@ -17,7 +17,7 @@ export interface TaskModel extends TaskBaseModel {
 }
 
 export interface ShortTaskProps extends TaskBaseModel {
-  selectTask: (data: SelectedTaskData) => void;
+  selectTask: (data: TaskFetchData) => void;
 }
 
 export interface NewTask {
