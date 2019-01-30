@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
@@ -25,11 +27,15 @@ class App extends React.Component<AllProps> {
 
   public render() {
     return (
-      <Provider store={this.props.store}>
-        <ConnectedRouter history={this.props.history}>
-          <Routes />
-        </ConnectedRouter>
-      </Provider>
+      // We need to move DragDropContextProvider outside the router because of dnd error
+      // more details is here https://github.com/react-dnd/react-dnd/issues/186#issuecomment-453990887
+      <DragDropContextProvider backend={HTML5Backend}>
+        <Provider store={this.props.store}>
+          <ConnectedRouter history={this.props.history}>
+            <Routes />
+          </ConnectedRouter>
+        </Provider>
+      </DragDropContextProvider>
     );
   }
 }
