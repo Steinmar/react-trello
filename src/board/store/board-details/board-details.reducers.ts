@@ -3,7 +3,7 @@ import {
   BoardDetailsStateActionTypes,
   BoardDetailsState
 } from './board-details.types';
-import { ColumnModel } from 'src/board/models/Column.model';
+import { ColumnModel } from '../../models';
 import * as _ from 'lodash';
 import { TaskBaseModel } from 'src/task-card/models';
 

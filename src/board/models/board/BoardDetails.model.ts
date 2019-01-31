@@ -1,8 +1,9 @@
-import { Error } from '../../core/models/Error';
-import { NewTask } from '../../task-card/models/Task.model';
-import { ColumnModel, NewColumnData } from './Column.model';
+import { Error } from '../../../core/models/Error';
+import { NewTask } from '../../../task-card/models/Task.model';
 import { RouteComponentProps } from 'react-router';
 import { TaskFetchData } from 'src/task-card/models';
+import { ChangedTaskColumnInfo } from '../ShortTaskDraggable.model';
+import { ColumnModel, NewColumnData } from '../column';
 
 export interface BoardDetailsModel {
   name: string;
@@ -24,6 +25,7 @@ export interface BoardDetailsProps
   deleteColumn: (event) => void;
   renameColumn: (event) => void;
   updateColumn: (event) => void;
+  changeTaskColumn: (event) => void;
 }
 
 export interface BoardDetailsState {
@@ -39,6 +41,7 @@ export interface BoardProps extends BoardDetailsModel {
   renameColumn: (data: ColumnModel) => void;
   deleteColumn: (data: ColumnModel) => void;
   selectTask: (data) => void;
+  changeTaskColumn: (data: ChangedTaskColumnInfo) => void;
 }
 
 export type SelectedTaskData = TaskFetchData;

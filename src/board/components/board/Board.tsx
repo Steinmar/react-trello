@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Typography, Grid } from '@material-ui/core';
-import Column from './Column';
+import Column from '../column/Column';
 import pageStyles from 'src/styles/page';
 import { css, StyleSheet } from 'aphrodite';
-import { BoardProps } from '../models/BoardDetails.model';
+import { BoardProps } from '../../models';
 import NewBoardItemDialog from './NewBoardItemDialog';
+import ColumnDropTarget from '../column/ColumnDropTarget';
 
 const styles = pageStyles;
 const customStyles = StyleSheet.create({
@@ -14,13 +15,12 @@ const customStyles = StyleSheet.create({
   infiniteInternalWidth: {
     'overflow-x': 'auto',
     'min-height': '90vh'
-    // this will affect all pager styles!
-    // height: 'calc(100% - 84px)'
   },
   newDialog: {
     width: '167px'
   },
-  column: {
+  columnSize: {
+    'max-width': '340px',
     'min-width': '340px'
   }
 });
@@ -34,8 +34,13 @@ class Board extends React.Component<BoardProps> {
 
   public render() {
     const columnList = this.props.columns.map(column => (
-      <Grid item={true} key={column.id} xs={12}>
-        <div className={css(customStyles.column)}>
+      <Grid
+        item={true}
+        key={column.id}
+        xs={12}
+        className={css(customStyles.columnSize)}
+      >
+        <ColumnDropTarget boardId={column.boardId} id={column.id}>
           <Column
             id={column.id}
             boardId={column.boardId}
@@ -47,8 +52,9 @@ class Board extends React.Component<BoardProps> {
             deleteColumn={this.props.deleteColumn}
             columnProhibitedNames={this.props.columnProhibitedNames}
             selectTask={this.props.selectTask}
+            changeTaskColumn={this.props.changeTaskColumn}
           />
-        </div>
+        </ColumnDropTarget>
       </Grid>
     ));
     return (

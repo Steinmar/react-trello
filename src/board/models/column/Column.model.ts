@@ -1,4 +1,5 @@
-import { TaskBaseModel, NewTask } from '../../task-card/models/Task.model';
+import { TaskBaseModel, NewTask } from '../../../task-card/models/Task.model';
+import { ChangedTaskColumnInfo } from '../ShortTaskDraggable.model';
 
 export interface ColumnModel {
   id: string;
@@ -14,6 +15,7 @@ export interface ColumnProps extends ColumnModel {
   deleteColumn: (data: ColumnModel) => void;
   addNewTask: (data: NewTask) => void;
   selectTask: (data) => void;
+  changeTaskColumn: (data: ChangedTaskColumnInfo) => void;
 }
 
 export interface NewColumnData {

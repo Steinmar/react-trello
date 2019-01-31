@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   deleteTaskDialog: {
     position: 'absolute',
     bottom: buttonIndent,
-    right: buttonIndent
+    right: buttonIndent,
+    margin: `0 ${buttonIndent}`
   }
 });
 
@@ -66,7 +67,7 @@ class TaskDetailsBody extends React.Component<
       );
     }
 
-    const statusesList = this.props.availableStatuses.map(status => (
+    const statusesList = (this.props.availableStatuses || []).map(status => (
       <MenuItem key={status} value={status}>
         {status}
       </MenuItem>

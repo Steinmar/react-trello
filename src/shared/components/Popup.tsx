@@ -18,19 +18,23 @@ const styles = StyleSheet.create({
   },
   popupInner: {
     position: 'absolute',
-    left: '25%',
-    right: '25%',
-    top: '25%',
-    bottom: '25%',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
     margin: 'auto',
     background: 'white',
     padding: '10px',
+    width: '410px',
+    'min-height': '400px',
     'border-radius': '2px',
     '@media (max-width: 600px)': {
+      width: 'auto',
       left: '0',
       right: '0',
-      top: '0',
-      bottom: '0'
+      transform: 'none',
+      top: '56px',
+      bottom: '0',
+      'z-index': 10000000
     }
   },
   button: {
@@ -45,10 +49,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     justify: 'flex-end'
   },
+  buttonsPosition: {
+    position: 'absolute',
+    bottom: '10px',
+    right: '10px'
+  },
   closeButton: {
     position: 'absolute',
     right: '1px',
     top: '1px'
+  },
+  popupContentWrapper: {
+    'margin-bottom': '50px'
   },
   popupContent: {
     'margin-right': '48px'
@@ -106,7 +118,11 @@ class Popup extends React.Component<PopupProps> {
 
     const popupButtons =
       cancelButton || submitButton ? (
-        <Grid item={true} xs={12} className={css(styles.justifyFlexEnd)}>
+        <Grid
+          item={true}
+          xs={12}
+          className={css(styles.justifyFlexEnd, styles.buttonsPosition)}
+        >
           {cancelButton}
           {submitButton}
         </Grid>
@@ -130,7 +146,11 @@ class Popup extends React.Component<PopupProps> {
       >
         <div className={css(styles.popupInner)}>
           <Grid container={true}>
-            <Grid item={true} xs={12}>
+            <Grid
+              item={true}
+              xs={12}
+              className={css(styles.popupContentWrapper)}
+            >
               {closeButton}
               <div className={!!closeButton ? css(styles.popupContent) : ''}>
                 {this.props.children || this.props.simpleText}

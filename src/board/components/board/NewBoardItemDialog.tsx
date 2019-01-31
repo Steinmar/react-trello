@@ -3,10 +3,7 @@ import * as React from 'react';
 import { Button, TextField, Icon } from '@material-ui/core';
 import { StyleSheet, css } from 'aphrodite';
 
-import {
-  BoardItemDialogProps,
-  BoardItemDialogState
-} from '../models/BoardItemDialog.model';
+import { BoardItemDialogProps, BoardItemDialogState } from '../../models';
 
 const styles = StyleSheet.create({
   editButtonsContainer: {
