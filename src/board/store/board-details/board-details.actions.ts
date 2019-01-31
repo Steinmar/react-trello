@@ -1,6 +1,6 @@
 import { action } from 'src/core/ReduxUtils';
 import { BoardDetailsStateActionTypes } from './board-details.types';
-import { ColumnModel } from 'src/board/models/Column.model';
+import { ColumnModel } from '../../models';
 import { TaskBaseModel, TaskModel } from 'src/task-card/models/Task.model';
 
 export const boardDetailsFetchRequest = id =>

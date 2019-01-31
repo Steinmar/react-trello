@@ -8,10 +8,10 @@ import {
   Icon,
   Grid
 } from '@material-ui/core';
-import { ColumnProps } from '../models/Column.model';
-import ShortTask from './ShortTask';
-import ShortTaskDraggable from './ShortTaskDraggable';
-import NewBoardItemDialog from './NewBoardItemDialog';
+import { ColumnProps } from '../../models';
+import ShortTask from '../short-task/ShortTask';
+import ShortTaskDraggable from '../short-task/ShortTaskDraggable';
+import NewBoardItemDialog from '../board/NewBoardItemDialog';
 import EditableTitle from 'src/shared/components/EditableTitle';
 import { EditableTitleResult } from 'src/core/models/EditableTitle';
 import { StyleSheet, css } from 'aphrodite';
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
   deleteContainer: {
     display: 'flex',
     'justify-content': 'flex-end'
+  },
+  columnActions: {
+    'padding-left': '16px',
+    'padding-right': '16px'
   }
 });
 
@@ -73,7 +77,7 @@ class Column extends React.Component<ColumnProps> {
             </Grid>
             <Typography component="div">{taskList}</Typography>
           </CardContent>
-          <CardActions>
+          <CardActions className={css(styles.columnActions)}>
             <NewBoardItemDialog
               type={'task'}
               saveNewName={this.addNewTaskHandler}

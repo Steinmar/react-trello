@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DragSource } from 'react-dnd';
-import { ShortTaskDraggableProps } from '../models/ShortTaskDraggable.model';
-import { DraggableTypes } from '../models/DraggableTypes';
+import { ShortTaskDraggableProps, DraggableTypes } from '../../models';
 
 function collect(connect, monitor) {
   return {

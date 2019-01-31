@@ -1,5 +1,5 @@
 import { Error } from '../../../core/models/Error';
-import { BoardDetailsModel } from '../../models/BoardDetails.model';
+import { BoardDetailsModel } from '../../models';
 
 export const enum BoardDetailsStateActionTypes {
   FETCH_DETAILS_REQUEST = '@@BoardDetails/FETCH_DETAILS_REQUEST',
