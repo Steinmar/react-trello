@@ -1,5 +1,5 @@
 import { Error } from '../../../core/models/Error';
-import { BoardListItem } from '../../models/BoardList.model';
+import { BoardListItem } from '../../models';
 
 export const enum BoardListStateActionTypes {
   FETCH_REQUEST = '@@BoardList/FETCH_REQUEST',

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DropTarget } from 'react-dnd';
-import { ColumnDropTargetProps } from '../models/ColumnDropTarget.model';
-import { DraggableTypes } from '../models/DraggableTypes';
+import { DraggableTypes, ColumnDropTargetProps } from '../../models';
 
 const columnTarget = {
   drop(props: ColumnDropTargetProps, monitor) {

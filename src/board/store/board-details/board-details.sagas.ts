@@ -3,7 +3,7 @@ import * as fromActions from './board-details.actions';
 import * as fromTypes from './board-details.types';
 import api from 'src/core/api';
 import requestErrorHandler from 'src/core/requestErrorHandler';
-import { ColumnModel } from 'src/board/models/Column.model';
+import { ColumnModel } from '../../models';
 import { TaskBaseModel } from 'src/task-card/models/Task.model';
 
 const getActiveBoard = state => state.board;

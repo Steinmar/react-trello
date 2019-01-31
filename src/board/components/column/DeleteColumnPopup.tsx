@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { TextField, Typography } from '@material-ui/core';
 import Popup from 'src/shared/components/Popup';
-import {
-  DeleteColumnPopupProps,
-  DeleteColumnPopupState
-} from '../models/DeleteColumnPopup.model';
+import { DeleteColumnPopupProps, DeleteColumnPopupState } from '../../models';
 
 class DeleteColumnPopup extends React.Component<
   DeleteColumnPopupProps,

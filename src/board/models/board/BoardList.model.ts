@@ -1,10 +1,5 @@
-import { Error } from '../../core/models/Error';
-
-export interface BoardListItem {
-  name: string;
-  id: string;
-  error?: Error;
-}
+import { Error } from '../../../core/models/Error';
+import { BoardListItem } from './BoardListItem.model';
 
 export interface BoardListProps {
   list: BoardListItem[];
